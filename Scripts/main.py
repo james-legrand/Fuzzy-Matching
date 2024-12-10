@@ -102,7 +102,7 @@ class MatchingTool:
         
         # Set appearance and theme
         ctk.set_appearance_mode("dark")
-        ctk.set_default_color_theme("rbb_theme.json")
+        #ctk.set_default_color_theme("rbb_theme.json")
 
         # Main title
         ctk.CTkLabel(self.root, text="Fuzzy Matching Tool", font=ctk.CTkFont(size=20, weight="bold")).pack(pady=10)

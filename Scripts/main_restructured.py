@@ -9,6 +9,7 @@ from typing import Callable, Union
 from matplotlib import colors as mcolors
 import pyarrow as pa
 import pyarrow.csv as csv
+import queue
 
 class IntSpinbox(ctk.CTkFrame):
     def __init__(self, *args,
@@ -22,7 +23,7 @@ class IntSpinbox(ctk.CTkFrame):
         self.step_size = step_size
         self.command = command
 
-        self.configure(fg_color=("#F5F4EE", "gray14"))  # set frame color
+        self.configure(fg_color=["gray92", "gray14"])  # set frame color
 
         self.grid_columnconfigure((0, 2), weight=0)  # buttons don't expand
         self.grid_columnconfigure(1, weight=1)  # entry expands
@@ -102,7 +103,7 @@ class MatchingTool:
         
         # Set appearance and theme
         ctk.set_appearance_mode("dark")
-        ctk.set_default_color_theme("rbb_theme.json")
+        #ctk.set_default_color_theme("rbb_theme.json")
 
         # Main title
         ctk.CTkLabel(self.root, text="Fuzzy Matching Tool", font=ctk.CTkFont(size=20, weight="bold")).pack(pady=10)
@@ -120,7 +121,7 @@ class MatchingTool:
         ctk.CTkRadioButton(self.root, text="Highest Matches Only", variable=self.output_type_var, value=2).pack()
     
         # Threshold frame and its components
-        threshold_frame = ctk.CTkFrame(self.root)
+        threshold_frame = ctk.CTkFrame(self.root, fg_color = ["gray92", "gray14"])
         threshold_frame.pack(pady=10)
     
         threshold_button = ctk.CTkRadioButton(
@@ -149,7 +150,7 @@ class MatchingTool:
         ctk.CTkRadioButton(self.root, text="Set Ratio", variable=self.matching_type_var, value=1).pack()
         ctk.CTkRadioButton(self.root, text="Sort Ratio", variable=self.matching_type_var, value=2).pack()
         ctk.CTkRadioButton(self.root, text="Max of (Set Ratio, Sort Ratio)", variable=self.matching_type_var, value=3).pack()
-        ctk.CTkRadioButton(self.root, text="WRatio", variable=self.matching_type_var, value=4).pack()
+        ctk.CTkRadioButton(self.root, text="QRatio", variable=self.matching_type_var, value=4).pack()
     
         # Progress bar and label
         self.progress_bar = ctk.CTkProgressBar(self.root, width=300)
@@ -335,6 +336,11 @@ class MatchingTool:
         if self.dataset_1_match_col.get() == self.dataset_1_id_col.get() or self.dataset_2_match_col.get() == self.dataset_2_id_col.get():
             self.show_error("Please select distinct columns to identify and match on.")
             return False
+
+        # Check if ID and match column names are distinct
+        if self.dataset_1_id_col.get() == self.dataset_2_id_col.get() or self.dataset_1_match_col.get() == self.dataset_2_match_col.get():
+            self.show_error("Please rename ID or match columns - duplicate column names found.")
+            return False
     
         return True
     
@@ -371,7 +377,7 @@ class MatchingTool:
             elif selected_matching_type == 3:
                 return rf.fuzz.token_ratio
             elif selected_matching_type == 4:
-                return rf.fuzz.WRatio
+                return rf.fuzz.QRatio
             else:
                 self.show_error("Invalid matching type selected.")
                 return None
@@ -388,8 +394,7 @@ class MatchingTool:
     def update_progress(self, update_threshold, total_tasks):
         self.current_progress += 1
         if self.current_progress % update_threshold == 0 or self.current_progress == round(total_tasks,-1) or self.current_progress == total_tasks:
-            # Use root.after() to update the progress bar from the main thread
-            self.root.after(0, self.update_progress_bar, total_tasks, self.current_progress)
+            self.progress_queue.put((total_tasks, self.current_progress))
             
     def generate_matches(self, selected_output_type, dataset_1_df, dataset_2_df, match_col_1, match_col_2, 
                      id_col_1, id_col_2, scorer, total_tasks, update_threshold):
@@ -459,20 +464,16 @@ class MatchingTool:
                     data.append([dataset_1_df[id_col_1].iloc[i], matched_row[id_col_2], 
                                  dataset_1_df[match_col_1].iloc[i], matched_row[match_col_2], score])
                 self.update_progress(update_threshold, total_tasks)
-    
+
         return data
 
     def clean_data(self, result_df, id_col_1):
-        """
-        Clean the data by performing grouping, adding necessary columns,
-        and formatting if the clean_switch is set to 1.
-        """
         # Ensure columns exist and check for NaN values
         if self.clean_switch.get() == 1:
             result_df['Valid Match'] = 0
             result_df['Comments'] = ''
             result_df['group_id'] = result_df.groupby([id_col_1], sort=False).ngroup() + 1
-            result_df['is_highest'] = result_df.groupby('group_id')['Match Score'].transform(max) == result_df['Match Score']
+            result_df['is_highest'] = result_df.groupby('group_id')['Match Score'].transform('max') == result_df['Match Score']
             result_df.sort_values(by=['group_id', 'Match Score'], ascending=[True, False], inplace=True)
             
             # Apply background color formatting for groups
@@ -571,9 +572,9 @@ class MatchingTool:
     
         # Initialize data structures for matching process
         self.current_progress = 0
-                
+        self.progress_queue = queue.Queue()
+    
         self.run_matching_button.configure(state="disabled")
-        result_ready_event = threading.Event()
 
         def run_in_thread():
             # Run generate_matches and create result_df in a separate thread
@@ -581,39 +582,48 @@ class MatchingTool:
                 selected_output_type, dataset_1_df, dataset_2_df, match_col_1,
                 match_col_2, id_col_1, id_col_2, scorer, total_tasks, update_threshold
             )
-        
+
             column_list = [id_col_1, id_col_2, match_col_1, match_col_2, 'Match Score']
             self.result_df = pd.DataFrame(data, columns=column_list)
-            
-            # Signal that result_df is ready
-            result_ready_event.set()
-        
+
+            self.progress_queue.put(("result", None))  # Notify progress checker
+
+        worker_thread = threading.Thread(
+            target=run_in_thread, daemon=True
+        )
+        worker_thread.start()
+
+        def check_progress():
+            try:
+                while True:
+                    update = self.progress_queue.get_nowait()
+                    if update[0] == "result":
+                        # Matching complete
+                        on_result_ready()
+                        return
+                    else:
+                        # Update progress
+                        total, completed = update
+                        self.update_progress_bar(total, completed)
+            except queue.Empty:
+                self.root.after(100, check_progress)
+
         def on_result_ready():
             # This function is triggered after result_df is available
             result_df = self.result_df
             if self.keep_columns_switch.get() == 1:
-                for df, cols, id_col in [(dataset_1_df, dataset_1_other_cols, id_col_1), (dataset_2_df, dataset_2_other_cols, id_col_2)]:
+                for df, cols, id_col in [(dataset_1_df, dataset_1_other_cols, id_col_1),
+                                        (dataset_2_df, dataset_2_other_cols, id_col_2)]:
                     result_df = pd.merge(result_df, df[cols], how='left', on=id_col)
 
-        
             # Clean and save result
             result_df = self.clean_data(result_df, id_col_1)
             self.save_data(result_df)
-        
+
             # Re-enable button after completion
             self.run_matching_button.configure(state="normal")
-        
-        # Start the thread
-        thread = threading.Thread(target=run_in_thread)
-        thread.start()
-        
-        # Wait in the background for the result to be ready, then call on_result_ready
-        def wait_for_result():
-            result_ready_event.wait()  # Block until result_ready_event is set
-            on_result_ready()          # Run the callback when result_df is ready
-        
-        # Start the waiting process in a separate thread so it doesn't block the GUI
-        threading.Thread(target=wait_for_result).start()
+
+        check_progress()
 
 
     # 4. **Utility Functions**
