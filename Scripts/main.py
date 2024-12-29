@@ -9,6 +9,7 @@ from typing import Callable, Union
 from matplotlib import colors as mcolors
 import pyarrow as pa
 import pyarrow.csv as csv
+import queue
 
 class IntSpinbox(ctk.CTkFrame):
     def __init__(self, *args,
@@ -22,7 +23,7 @@ class IntSpinbox(ctk.CTkFrame):
         self.step_size = step_size
         self.command = command
 
-        self.configure(fg_color=("#F5F4EE", "gray14"))  # set frame color
+        self.configure(fg_color=["gray92", "gray14"])  # set frame color
 
         self.grid_columnconfigure((0, 2), weight=0)  # buttons don't expand
         self.grid_columnconfigure(1, weight=1)  # entry expands
@@ -86,7 +87,7 @@ class MatchingTool:
     def setup_gui(self):
         self.root = ctk.CTk()
         self.root.title("Fuzzy Matching Tool")
-        self.root.geometry("600x750")
+        self.root.geometry("600x950")
 
         # Initialize variables 
         self.dataset_1_path = ctk.StringVar()
@@ -120,7 +121,7 @@ class MatchingTool:
         ctk.CTkRadioButton(self.root, text="Highest Matches Only", variable=self.output_type_var, value=2).pack()
     
         # Threshold frame and its components
-        threshold_frame = ctk.CTkFrame(self.root)
+        threshold_frame = ctk.CTkFrame(self.root, fg_color = ["gray92", "gray14"])
         threshold_frame.pack(pady=10)
     
         threshold_button = ctk.CTkRadioButton(
@@ -149,7 +150,7 @@ class MatchingTool:
         ctk.CTkRadioButton(self.root, text="Set Ratio", variable=self.matching_type_var, value=1).pack()
         ctk.CTkRadioButton(self.root, text="Sort Ratio", variable=self.matching_type_var, value=2).pack()
         ctk.CTkRadioButton(self.root, text="Max of (Set Ratio, Sort Ratio)", variable=self.matching_type_var, value=3).pack()
-        ctk.CTkRadioButton(self.root, text="WRatio", variable=self.matching_type_var, value=4).pack()
+        ctk.CTkRadioButton(self.root, text="QRatio", variable=self.matching_type_var, value=4).pack()
     
         # Progress bar and label
         self.progress_bar = ctk.CTkProgressBar(self.root, width=300)
@@ -170,7 +171,7 @@ class MatchingTool:
         self.keep_columns_switch.pack(pady=10)
     
         # Run matching button
-        self.run_matching_button = ctk.CTkButton(self.root, text="Run Matching", command=self.start_threaded_matching, width=200)
+        self.run_matching_button = ctk.CTkButton(self.root, text="Run Matching", command=self.run_matching, width=200)
         self.run_matching_button.pack(pady=10)
         
         # Start the GUI loop
@@ -295,144 +296,122 @@ class MatchingTool:
             dropdown_id.configure(values=columns)
             dropdown_match.configure(values=columns)
             
-
-    # 3. **Matching Process Functions**
-    def run_matching(self):
-        
+    def validate_inputs(self):
+        # Check if Dataset 1 path is provided
         if not self.dataset_1_path.get():
             self.show_error("Please select Dataset 1.")
-            return
+            return False
     
+        # Check if Dataset 2 path is provided
         if not self.dataset_2_path.get():
             self.show_error("Please select Dataset 2.")
-            return
+            return False
     
+        # Check if Output path is provided
         if not self.output_path.get():
             self.show_error("Please select an output file.")
-            return
+            return False
+    
+        # Check if Dataset 1 ID column is selected
         if not self.dataset_1_id_col.get() or self.dataset_1_id_col.get() == "ID Column":
-           self.show_error("Please select an ID column for Dataset 1.")
-           return
+            self.show_error("Please select an ID column for Dataset 1.")
+            return False
+    
+        # Check if Dataset 2 ID column is selected
         if not self.dataset_2_id_col.get() or self.dataset_2_id_col.get() == "ID Column":
-           self.show_error("Please select an ID column for Dataset 2.")
-           return
+            self.show_error("Please select an ID column for Dataset 2.")
+            return False
+    
+        # Check if Dataset 1 Match column is selected
         if not self.dataset_1_match_col.get() or self.dataset_1_match_col.get() == "Match Column":
-           self.show_error("Please select a match column for Dataset 1.")
-           return
+            self.show_error("Please select a match column for Dataset 1.")
+            return False
+    
+        # Check if Dataset 2 Match column is selected
         if not self.dataset_2_match_col.get() or self.dataset_2_match_col.get() == "Match Column":
-           self.show_error("Please select a match column for Dataset 2.")
-           return
+            self.show_error("Please select a match column for Dataset 2.")
+            return False
+    
+        # Check if ID and Match columns are distinct
         if self.dataset_1_match_col.get() == self.dataset_1_id_col.get() or self.dataset_2_match_col.get() == self.dataset_2_id_col.get():
-           self.show_error("Please select distinct columns to identify and match on.")
-           return
-    
-        try:
-            threshold_value = float(self.score_threshold_spinbox.get())
-            if not (0 <= threshold_value <= 100):
-                self.show_error("Threshold value must be between 0 and 100.")
-                return
-        except (ValueError, TypeError):
-            self.show_error("Please enter a valid number for the threshold.")
-            return
+            self.show_error("Please select distinct columns to identify and match on.")
+            return False
 
+        # Check if ID and match column names are distinct
+        if self.dataset_1_id_col.get() == self.dataset_2_id_col.get() or self.dataset_1_match_col.get() == self.dataset_2_match_col.get():
+            self.show_error("Please rename ID or match columns - duplicate column names found.")
+            return False
     
-        # Load dataset 1 based on file extension
-        if self.dataset_1_path.get().endswith('.xlsx'):
-            dataset_1_df = pd.read_excel(self.dataset_1_path.get())
-        elif self.dataset_1_path.get().endswith('.csv'):
-            dataset_1_df = pd.read_csv(self.dataset_1_path.get())
-        elif self.dataset_1_path.get().endswith('.dta'):
-            dataset_1_df = pd.read_stata(self.dataset_1_path.get()) 
-        
-        # Load dataset 2 based on file extension
-        if self.dataset_2_path.get().endswith('.xlsx'):
-            dataset_2_df = pd.read_excel(self.dataset_2_path.get())
-        elif self.dataset_2_path.get().endswith('.csv'):
-            dataset_2_df = pd.read_csv(self.dataset_2_path.get())
-        elif self.dataset_2_path.get().endswith('.dta'):
-            dataset_2_df = pd.read_stata(self.dataset_2_path.get())
-            
-        dataset_1_rows, _ = self.dataset_cache[self.dataset_1_path.get()]  # Get cached rows for dataset 1
-        dataset_2_rows, _ = self.dataset_cache[self.dataset_2_path.get()]  # Get cached rows for dataset 2
-            
-        if dataset_1_rows * dataset_2_rows > 100000 and not self.output_path.get().endswith('.csv'):
-            self.show_error("Too much data for this format, please export to a CSV.")
-            self.run_matching_button.configure(state="normal")
-            return
+        return True
     
-        # Resolve selected columns using .get()
-        id_col_1 = self.dataset_1_id_col.get()
-        match_col_1 = self.dataset_1_match_col.get()
-        id_col_2 = self.dataset_2_id_col.get()
-        match_col_2 = self.dataset_2_match_col.get()
-        
+    def load_dataset(self, dataset_path, id_col, match_col):
+        """Load dataset based on file extension, retrieve cached row data, and select specified columns."""
+        # Determine the file extension and load accordingly
+        if dataset_path.endswith('.xlsx'):
+            df = pd.read_excel(dataset_path)
+        elif dataset_path.endswith('.csv'):
+            df = pd.read_csv(dataset_path)
+        elif dataset_path.endswith('.dta'):
+            df = pd.read_stata(dataset_path)
+        else:
+            self.show_error(f"Unsupported file format for {dataset_path}.")
+            return None, None, None, None
     
-        dataset_1_other_cols = [col for col in dataset_1_df.columns if col not in [match_col_1]]
-        dataset_2_other_cols = [col for col in dataset_2_df.columns if col not in [match_col_2]]
+        # Retrieve cached row data
+        rows, _ = self.dataset_cache[dataset_path]
     
+        # Resolve selected columns
+        id_column = id_col.get()
+        match_column = match_col.get()
+        other_cols = [col for col in df.columns if col != match_column]
     
-        selected_matching_type = self.matching_type_var.get()
+        return df, rows, id_column, match_column, other_cols
+    
+    def get_scorer(self):
+            """Return the appropriate scorer function based on the selected matching type."""
+            selected_matching_type = self.matching_type_var.get()
+            if selected_matching_type == 1:
+                return rf.fuzz.token_set_ratio
+            elif selected_matching_type == 2:
+                return rf.fuzz.token_sort_ratio
+            elif selected_matching_type == 3:
+                return rf.fuzz.token_ratio
+            elif selected_matching_type == 4:
+                return rf.fuzz.QRatio
+            else:
+                self.show_error("Invalid matching type selected.")
+                return None
+    
+    def setup_tasks(self, dataset_1_rows, dataset_2_rows):
+        """Calculate and return total tasks and update threshold based on output type."""
         selected_output_type = self.output_type_var.get()
-    
         total_tasks = dataset_1_rows * dataset_2_rows if selected_output_type == 1 else dataset_1_rows
-        update_threshold = round(total_tasks,-1) * 0.1
-        
-        data = []
-        result_df = None
-        current_progress = 0
-        
-        if selected_matching_type == 1:
-            scorer = rf.fuzz.token_set_ratio
-        elif selected_matching_type == 2:
-            scorer = rf.fuzz.token_sort_ratio
-        elif selected_matching_type == 3:
-            scorer = rf.fuzz.token_ratio
-        elif selected_matching_type ==4:
-            scorer = rf.fuzz.WRatio
-            
-        self.run_matching_button.configure(state="disabled")
+        update_threshold = round(total_tasks, -1) * 0.1
+        return total_tasks, update_threshold, selected_output_type
     
-        # Output type 1: All Possible Combinations
-        if selected_output_type == 1:
+
+    # 3. **Matching Process Functions**
+    def update_progress(self, update_threshold, total_tasks):
+        self.current_progress += 1
+        if self.current_progress % update_threshold == 0 or self.current_progress == round(total_tasks,-1) or self.current_progress == total_tasks:
+            self.progress_queue.put((total_tasks, self.current_progress))
+            
+    def generate_matches(self, selected_output_type, dataset_1_df, dataset_2_df, match_col_1, match_col_2, 
+                     id_col_1, id_col_2, scorer, total_tasks, update_threshold):
+        data = []
+        
+        if selected_output_type == 1:  # All Possible Combinations
             for i in range(len(dataset_1_df)):
                 for j in range(len(dataset_2_df)):
-                    # Check if any of the selected match columns contain missing values
                     if pd.isna(dataset_1_df[match_col_1].iloc[i]) or pd.isna(dataset_2_df[match_col_2].iloc[j]):
                         score = 'N/A'
                     else:
                         score = scorer(dataset_1_df[match_col_1].iloc[i], dataset_2_df[match_col_2].iloc[j])
-    
                     data.append([dataset_1_df[id_col_1].iloc[i], dataset_2_df[id_col_2].iloc[j], 
                                  dataset_1_df[match_col_1].iloc[i], dataset_2_df[match_col_2].iloc[j], score])
-    
-                    # Update progress
-                    current_progress += 1
-                    if current_progress % update_threshold == 0 or current_progress == round(total_tasks,-1) or current_progress == total_tasks or current_progress==0:
-                        # Use root.after() to update the progress bar from the main thread
-                        self.root.after(0, self.update_progress_bar, total_tasks, current_progress)
-    
-            column_list = [id_col_1, id_col_2, match_col_1, match_col_2, 'Match Score']
-            result_df = pd.DataFrame(data, columns=column_list)
-            
-            if self.keep_columns_switch.get() == 1:
-                result_df = pd.merge(
-                    left= result_df,
-                    right=dataset_1_df[dataset_1_other_cols],
-                    how = 'left',
-                    on = id_col_1,
-                    )
-                
-                result_df = pd.merge(
-                    left= result_df,
-                    right=dataset_2_df[dataset_2_other_cols],
-                    how = 'left',
-                    on = id_col_2,
-                    )
-            
-            
-    
-        # Output type 2: Highest Matches Only
-        elif selected_output_type == 2:
+                    self.update_progress(update_threshold, total_tasks)
+        
+        elif selected_output_type == 2:  # Highest Matches Only
             for i in range(len(dataset_1_df)):
                 max_score, best_match = 0, None
                 for j in range(len(dataset_2_df)):
@@ -440,187 +419,211 @@ class MatchingTool:
                         score = 0
                     else:
                         score = scorer(dataset_1_df[match_col_1].iloc[i], dataset_2_df[match_col_2].iloc[j])
-    
-                    data.append([dataset_1_df[id_col_1].iloc[i], dataset_2_df[id_col_2].iloc[j], 
-                                 dataset_1_df[match_col_1].iloc[i], dataset_2_df[match_col_2].iloc[j], score])
-    
+                    
                     if score > max_score:
                         max_score = score
                         best_match = j
-    
+                    
+                    data.append([dataset_1_df[id_col_1].iloc[i], dataset_2_df[id_col_2].iloc[j], 
+                                 dataset_1_df[match_col_1].iloc[i], dataset_2_df[match_col_2].iloc[j], score])
+                
                 if best_match is not None:
                     data.append([dataset_1_df[id_col_1].iloc[i], dataset_2_df[id_col_2].iloc[best_match], 
                                  dataset_1_df[match_col_1].iloc[i], dataset_2_df[match_col_2].iloc[best_match], max_score])
-    
-                # Update progress
-                current_progress += 1
-                if current_progress % update_threshold == 0 or current_progress == round(total_tasks,-1) or current_progress == total_tasks or current_progress==0:
-                        # Use root.after() to update the progress bar from the main thread
-                        self.root.after(0, self.update_progress_bar, total_tasks, current_progress)
-    
-            column_list = [id_col_1, id_col_2, match_col_1, match_col_2, 'Match Score']
-            result_df = pd.DataFrame(data, columns=column_list)
+                self.update_progress(update_threshold, total_tasks)
+        
+        elif selected_output_type == 3:  # Matches above threshold
+            # Validate threshold value
+            try:
+                threshold_value = float(self.score_threshold_spinbox.get())
+                if not (0 <= threshold_value <= 100):
+                    self.show_error("Threshold value must be between 0 and 100.")
+                    self.run_matching_button.configure(state="normal")
+                    return False
+            except (ValueError, TypeError):
+                self.show_error("Please enter a valid number for the threshold.")
+                self.run_matching_button.configure(state="normal")
+                return False
             
-            if self.keep_columns_switch.get() == 1:
-                result_df = pd.merge(
-                    left= result_df,
-                    right=dataset_1_df[dataset_1_other_cols],
-                    how = 'left',
-                    on = id_col_1,
-                    )
-                
-                result_df = pd.merge(
-                    left= result_df,
-                    right=dataset_2_df[dataset_2_other_cols],
-                    how = 'left',
-                    on = id_col_2,
-                    )
-        elif selected_output_type == 3:
+            
             for i in range(len(dataset_1_df)):
                 if pd.isna(dataset_1_df[match_col_1].iloc[i]):
-                    score = 'N/A'
-        
-                # Extract all matches above the score_cutoff threshold
+                    continue
+                
                 results = rf.process.extract(
                     dataset_1_df[match_col_1].iloc[i],
                     dataset_2_df[match_col_2].dropna().tolist(),
-                    scorer = scorer,
-                    score_cutoff=threshold_value,  # Apply threshold directly
-                    limit = None
+                    scorer=scorer,
+                    score_cutoff=threshold_value,
+                    limit=None
                 )
                 
-                # Adjust unpacking for RapidFuzz and FuzzyWuzzy
                 for result in results:
-                    match, score, _ = result  # Unpack match, score, and index (ignore index)
-                    
-                    # Find the corresponding ID for the matched value
+                    match, score, _ = result
                     matched_row = dataset_2_df[dataset_2_df[match_col_2] == match].iloc[0]
                     data.append([dataset_1_df[id_col_1].iloc[i], matched_row[id_col_2], 
                                  dataset_1_df[match_col_1].iloc[i], matched_row[match_col_2], score])
-        
-                # Update progress
-                current_progress += 1
-                if current_progress % update_threshold == 0 or current_progress == round(total_tasks,-1) or current_progress == total_tasks or current_progress==0:
-                        # Use root.after() to update the progress bar from the main thread
-                        self.root.after(0, self.update_progress_bar, total_tasks, current_progress)
-        
-            column_list = [id_col_1, id_col_2, match_col_1, match_col_2, 'Match Score']
-            result_df = pd.DataFrame(data, columns=column_list)
-            
-            if self.keep_columns_switch.get() == 1:
-                result_df = pd.merge(
-                    left= result_df,
-                    right=dataset_1_df[dataset_1_other_cols],
-                    how = 'left',
-                    on = id_col_1,
-                    )
-                
-                result_df = pd.merge(
-                    left= result_df,
-                    right=dataset_2_df[dataset_2_other_cols],
-                    how = 'left',
-                    on = id_col_2,
-                    )
-    
-    
-    
-            # Save result to the selected file
-        if result_df is not None:
-            
-            output_file = self.output_path.get()
-            
-            if self.clean_switch.get() == 0:
-                try:
-                    if output_file.endswith('.xlsx'):
-                        result_df.to_excel(output_file, index=False, engine="xlsxwriter")
-                    elif output_file.endswith('.csv'):
-                        new_pa_dataframe = pa.Table.from_pandas(result_df)
-                        csv.write_csv(new_pa_dataframe, output_file)
-                        #result_df.to_csv(output_file, index=False)
-                    elif output_file.endswith('.dta'):
-                        result_df.to_stata(output_file, index=False)
-                    animal_fact = ""
-                    if self.fact_switch.get() == 1:
-                        animal_fact = "\n\n" + random.choice(facts)
-                        
-                    messagebox.showinfo("Success", "Matching completed and saved to " + output_file + animal_fact)
-                    
-                except PermissionError:
-                    self.show_error("Write permission denied. Please close the output file.")
-                    self.run_matching_button.configure(state="normal")
-                    return
-        
-            # Ensure the columns exist and check for NaN values
+                self.update_progress(update_threshold, total_tasks)
+
+        return data
+
+    def clean_data(self, result_df, id_col_1):
+        # Ensure columns exist and check for NaN values
         if self.clean_switch.get() == 1:
-            try:
-                # Perform grouping and formatting
-                result_df['Valid Match'] = 0
-                result_df['Comments'] = ''
-                result_df['group_id'] = result_df.groupby([id_col_1], sort=False).ngroup() + 1
-                result_df['is_highest'] = result_df.groupby('group_id')['Match Score'].transform(max) == result_df['Match Score']
-                result_df.sort_values(by=['group_id', 'Match Score'], ascending=[True, False], inplace=True)
-        
-                highlighted_data = []
-                current_group_index = -1
-                current_group = None
-        
-                for index, row in result_df.iterrows():
-                    if row['group_id'] != current_group:
-                        current_group_index += 1
-                        current_group = row['group_id']
-        
-                    bg_color = self.get_group_color(current_group_index, row['is_highest'])
-                    highlighted_data.append({**row.to_dict(), 'Background Color': bg_color})
-        
-                highlighted_df = pd.DataFrame(highlighted_data)
-        
-                # Save to file
+            result_df['Valid Match'] = 0
+            result_df['Comments'] = ''
+            result_df['group_id'] = result_df.groupby([id_col_1], sort=False).ngroup() + 1
+            result_df['is_highest'] = result_df.groupby('group_id')['Match Score'].transform('max') == result_df['Match Score']
+            result_df.sort_values(by=['group_id', 'Match Score'], ascending=[True, False], inplace=True)
+            
+            # Apply background color formatting for groups
+            highlighted_data = []
+            current_group_index = -1
+            current_group = None
+    
+            for index, row in result_df.iterrows():
+                if row['group_id'] != current_group:
+                    current_group_index += 1
+                    current_group = row['group_id']
+                    
+                bg_color = self.get_group_color(current_group_index, row['is_highest'])
+                highlighted_data.append({**row.to_dict(), 'Background Color': bg_color})
+    
+            highlighted_df = pd.DataFrame(highlighted_data)
+            return highlighted_df
+    
+        return result_df  # Return unmodified if no cleaning is needed
+    
+    def save_data(self, result_df):
+        """
+        Save the cleaned or non-cleaned dataset to the specified file format.
+        """
+        output_file = self.output_path.get()
+    
+        try:
+            if self.clean_switch.get() == 0:
+                # Save non-cleaned data
+                if output_file.endswith('.xlsx'):
+                    result_df.to_excel(output_file, index=False, engine="xlsxwriter")
+                elif output_file.endswith('.csv'):
+                    new_pa_dataframe = pa.Table.from_pandas(result_df)
+                    csv.write_csv(new_pa_dataframe, output_file)
+                elif output_file.endswith('.dta'):
+                    result_df.to_stata(output_file, index=False)
+            
+            else:
+                # Save cleaned data with formatting if clean_switch == 1
+                highlighted_df = result_df.drop(columns=['Background Color', 'group_id', 'is_highest'])
                 if output_file.endswith('.xlsx'):
                     with pd.ExcelWriter(output_file, engine='xlsxwriter') as writer:
-                        highlighted_df.drop(columns=['Background Color', 'group_id', 'is_highest']).to_excel(writer, index=False, sheet_name='Matches')
+                        highlighted_df.to_excel(writer, index=False, sheet_name='Matches')
                         workbook = writer.book
                         worksheet = writer.sheets['Matches']
-                
-                        # Define cell format for the background color
-                        for i, color in enumerate(highlighted_df['Background Color']):
-                            for j in range(len(highlighted_df.columns) - 3):
+                        
+                        # Apply cell format for background color
+                        for i, color in enumerate(result_df['Background Color']):
+                            for j in range(len(highlighted_df.columns)):
                                 hex_color = mcolors.to_hex(color).replace('#', '')
                                 cell_format = workbook.add_format({'bg_color': hex_color})
-                
-                                # Write the value with format applied
                                 worksheet.write(i + 1, j, highlighted_df.iloc[i, j], cell_format)
-                
+                        
                         # Adjust column width
                         for col_num, value in enumerate(highlighted_df.columns):
                             worksheet.set_column(col_num, col_num, 20)
-                        
-    
+                
                 elif output_file.endswith('.csv'):
-                    highlighted_df = highlighted_df.drop(columns=['Background Color', 'group_id', 'is_highest'])
                     new_pa_dataframe = pa.Table.from_pandas(highlighted_df)
                     csv.write_csv(new_pa_dataframe, output_file)
-                    
+                
                 elif output_file.endswith('.dta'):
-                    highlighted_df = highlighted_df.drop(columns=['Background Color', 'group_id', 'is_highest'])
                     highlighted_df.to_stata(output_file, index=False)
+    
+            # Add an animal fact if fact_switch is set
+            animal_fact = "\n\n" + random.choice(facts) if self.fact_switch.get() == 1 else ""
+            messagebox.showinfo("Success", "Matching completed and saved to " + output_file + animal_fact)
+    
+        except PermissionError:
+            self.show_error("Write permission denied. Please close the output file.")
+            self.run_matching_button.configure(state="normal")
+    
+    def run_matching(self):
         
-                animal_fact = ""
-        
-                if self.fact_switch.get() == 1:
-                    animal_fact = "\n\n" + random.choice(facts)
-        
-                messagebox.showinfo("Success", "Matching completed and saved to " + output_file + animal_fact)
-        
-            except PermissionError:
-                self.show_error("Write permission denied. Please close the output file.")
-                self.run_matching_button.configure(state="normal")
-                return
-            
-        self.run_matching_button.configure(state="normal")
+        if not self.validate_inputs():
+            return
 
-    def start_threaded_matching(self):
-        # Start the run_matching function in a separate thread
-        threading.Thread(target=self.run_matching, daemon=True).start()
+        # Load Dataset 1 and Dataset 2 
+        dataset_1_df, dataset_1_rows, id_col_1, match_col_1, dataset_1_other_cols = self.load_dataset(
+            self.dataset_1_path.get(), self.dataset_1_id_col, self.dataset_1_match_col
+        )
+        dataset_2_df, dataset_2_rows, id_col_2, match_col_2, dataset_2_other_cols = self.load_dataset(
+            self.dataset_2_path.get(), self.dataset_2_id_col, self.dataset_2_match_col
+        )
+             
+        if dataset_1_rows * dataset_2_rows > 100000 and not self.output_path.get().endswith('.csv'):
+            self.show_error("Too much data for this format, please export to a CSV.")
+            self.run_matching_button.configure(state="normal")
+            return
+    
+        # Set up tasks and threshold
+        total_tasks, update_threshold, selected_output_type = self.setup_tasks(dataset_1_rows, dataset_2_rows)
+    
+        # Get scorer function
+        scorer = self.get_scorer()
+    
+        # Initialize data structures for matching process
+        self.current_progress = 0
+        self.progress_queue = queue.Queue()
+    
+        self.run_matching_button.configure(state="disabled")
+
+        def run_in_thread():
+            # Run generate_matches and create result_df in a separate thread
+            data = self.generate_matches(
+                selected_output_type, dataset_1_df, dataset_2_df, match_col_1,
+                match_col_2, id_col_1, id_col_2, scorer, total_tasks, update_threshold
+            )
+
+            column_list = [id_col_1, id_col_2, match_col_1, match_col_2, 'Match Score']
+            self.result_df = pd.DataFrame(data, columns=column_list)
+
+            self.progress_queue.put(("result", None))  # Notify progress checker
+
+        worker_thread = threading.Thread(
+            target=run_in_thread, daemon=True
+        )
+        worker_thread.start()
+
+        def check_progress():
+            try:
+                while True:
+                    update = self.progress_queue.get_nowait()
+                    if update[0] == "result":
+                        # Matching complete
+                        on_result_ready()
+                        return
+                    else:
+                        # Update progress
+                        total, completed = update
+                        self.update_progress_bar(total, completed)
+            except queue.Empty:
+                self.root.after(100, check_progress)
+
+        def on_result_ready():
+            # This function is triggered after result_df is available
+            result_df = self.result_df
+            if self.keep_columns_switch.get() == 1:
+                for df, cols, id_col in [(dataset_1_df, dataset_1_other_cols, id_col_1),
+                                        (dataset_2_df, dataset_2_other_cols, id_col_2)]:
+                    result_df = pd.merge(result_df, df[cols], how='left', on=id_col)
+
+            # Clean and save result
+            result_df = self.clean_data(result_df, id_col_1)
+            self.save_data(result_df)
+
+            # Re-enable button after completion
+            self.run_matching_button.configure(state="normal")
+
+        check_progress()
 
 
     # 4. **Utility Functions**
@@ -659,6 +662,6 @@ facts =["Rabbits don't have pads on their paws, only fur. So if you see a cartoo
             ]
 
 
-# **Main Entry Point**
+
 if __name__ == "__main__":
     MatchingTool()
