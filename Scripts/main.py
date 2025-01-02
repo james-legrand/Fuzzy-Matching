@@ -10,6 +10,23 @@ from matplotlib import colors as mcolors
 import pyarrow as pa
 import pyarrow.csv as csv
 import queue
+import sys
+import io
+
+class TextRedirector(io.StringIO):
+    def __init__(self, widget):
+        super().__init__()
+        self.widget = widget
+
+    def write(self, string):
+        if string.strip():  # Only log non-empty lines
+            self.widget.after(0, self.widget.insert, "end", string + "\n")
+            self.widget.after(0, self.widget.see, "end")
+
+    def flush(self):
+        pass  # No buffering is required
+
+
 
 class IntSpinbox(ctk.CTkFrame):
     def __init__(self, *args,
@@ -79,15 +96,22 @@ class MatchingTool:
     def __init__(self):
         # Initialize main root window first
         self.root = None
-        
+        self.is_advanced_visible = False  # Track whether advanced options are visible
         # Call function to set up GUI
         self.setup_gui()
+
+    def __del__(self):
+    # Reset stdout to default
+        sys.stdout = sys.__stdout__
+        sys.stderr = sys.__stderr__
+
 
     # 1. **Setup GUI**
     def setup_gui(self):
         self.root = ctk.CTk()
+        self.root.resizable(width=False, height=False)
         self.root.title("Fuzzy Matching Tool")
-        self.root.geometry("600x950")
+        self.root.geometry("550x600")
 
         # Initialize variables 
         self.dataset_1_path = ctk.StringVar()
@@ -99,6 +123,12 @@ class MatchingTool:
         self.dataset_1_match_col = ctk.StringVar(value='Match Column')
         self.dataset_2_id_col = ctk.StringVar(value='ID Column')
         self.dataset_2_match_col = ctk.StringVar(value='Match Column')
+        self.dataset_1_match_col_2 = ctk.StringVar(value='Match Column 2')
+        self.dataset_2_match_col_2 = ctk.StringVar(value='Match Column 2')
+        self.output_type_var = ctk.IntVar(value=2)
+        self.matching_type_var = ctk.IntVar(value=1)  # Default to 'Set Ratio'
+        self.score_method_var = ctk.StringVar(value="Score Method")
+        self.weight_var = ctk.DoubleVar(value = 0.5)
         self.dataset_cache = {}
         
         # Set appearance and theme
@@ -107,28 +137,34 @@ class MatchingTool:
 
         # Main title
         ctk.CTkLabel(self.root, text="Fuzzy Matching Tool", font=ctk.CTkFont(size=20, weight="bold")).pack(pady=10)
+
+        # Main frame
+        self.main_frame = ctk.CTkFrame(self.root, width=600, height=600, fg_color=["gray92", "gray14"])
+        self.main_frame.place(x=20, y=50, anchor="nw")
+
     
-        self.create_dataset_frame(1, self.dataset_1_path, self.dataset_1_id_col, self.dataset_1_match_col)
-        self.create_dataset_frame(2, self.dataset_2_path, self.dataset_2_id_col, self.dataset_2_match_col)
+        self.create_dataset_frame(self.main_frame, 1, self.dataset_1_path, self.dataset_1_id_col, self.dataset_1_match_col)
+        self.create_dataset_frame(self.main_frame, 2, self.dataset_2_path, self.dataset_2_id_col, self.dataset_2_match_col)
         
         # Output file selection button
-        self.create_button("Select Output File", self.output_path, is_output=True)
+        self.create_button(self.main_frame, "Select Output File", self.output_path, is_output=True)
     
         # Radio buttons for selecting output type
-        ctk.CTkLabel(self.root, text="Select Output Type").pack(pady=5)
-        self.output_type_var = ctk.IntVar(value=2)  # Default to 'Highest Matches Only'
-        ctk.CTkRadioButton(self.root, text="All Possible Combinations", variable=self.output_type_var, value=1).pack()
-        ctk.CTkRadioButton(self.root, text="Highest Matches Only", variable=self.output_type_var, value=2).pack()
+        ctk.CTkLabel(self.main_frame, text="Select Output Type", font=ctk.CTkFont(size=13, weight="bold")).pack(pady=5)
+        ctk.CTkRadioButton(self.main_frame, text="All Possible Combinations", variable=self.output_type_var, value=1, radiobutton_width = 18, radiobutton_height = 18, border_width_checked=5).pack()
+        ctk.CTkRadioButton(self.main_frame, text="Highest Matches Only", variable=self.output_type_var, value=2, radiobutton_width = 18, radiobutton_height = 18, border_width_checked=5).pack()
     
-        # Threshold frame and its components
-        threshold_frame = ctk.CTkFrame(self.root, fg_color = ["gray92", "gray14"])
-        threshold_frame.pack(pady=10)
+        threshold_frame = ctk.CTkFrame(self.main_frame, fg_color = ["gray92", "gray14"])
+        threshold_frame.pack(pady=0)
     
         threshold_button = ctk.CTkRadioButton(
             threshold_frame, 
             text="Matches Above Threshold", 
             variable=self.output_type_var, 
-            value=3
+            value=3,
+            radiobutton_width = 18, 
+            radiobutton_height = 18,
+            border_width_checked=5
         )
         threshold_button.grid(row=0, column=0, padx=5)
     
@@ -136,63 +172,124 @@ class MatchingTool:
         self.score_threshold_spinbox.grid(row=0, column=1, padx=5, pady=5)
         self.score_threshold_spinbox.set(80)
     
-        # Toggle appearance mode switch positioned at the top-right corner
+       # Appearance mode switch at the top-left corner
         self.appearance_mode_switch = ctk.CTkSwitch(
-            self.root, 
-            text="Theme", 
+            self.root,
+            text="Theme",
             command=self.toggle_appearance_mode
         )
-        self.appearance_mode_switch.place(relx=0.95, rely=0.02, anchor="ne")  # Adjust position to top-right
-    
+        self.appearance_mode_switch.place(x=10, y=5, anchor="nw")  # Adjust to top-left
+
+        # Advanced options toggle button below the appearance mode switch
+        self.toggle_advanced_button = ctk.CTkSwitch(
+            self.root,
+            text="Advanced Options",
+            command=self.toggle_advanced_options
+        )
+        self.toggle_advanced_button.place(x=10, y=30, anchor="nw")  # Slightly below the switch
+
+        # Create the advanced options frame (hidden by default)
+        self.advanced_options_frame = ctk.CTkFrame(self.root, width=500, height=500, fg_color=["gray92", "gray14"])
+        self.advanced_options_frame.grid_columnconfigure(1, weight=1)  # Make columns flexible
+        self.advanced_options_frame.grid_columnconfigure(2, weight=1)
+        self.advanced_options_frame.grid_columnconfigure(3, weight=1)
+        self.advanced_options_frame.place_forget()  # Hide by default
+
+        # Add debugging window contents to the frame
+        self.terminal_output_text = ctk.CTkTextbox(self.advanced_options_frame, width=450, height=250, wrap="word")
+
+        # Redirect stdout and stderr to the text box
+        redirector = TextRedirector(self.terminal_output_text)
+        sys.stdout = redirector
+        sys.stderr = redirector  # Capture errors   
+
+        
         # Radio buttons for selecting matching type
-        ctk.CTkLabel(self.root, text="Select Matching Type").pack(pady=5)
-        self.matching_type_var = ctk.IntVar(value=1)  # Default to 'Set Ratio'
-        ctk.CTkRadioButton(self.root, text="Set Ratio", variable=self.matching_type_var, value=1).pack()
-        ctk.CTkRadioButton(self.root, text="Sort Ratio", variable=self.matching_type_var, value=2).pack()
-        ctk.CTkRadioButton(self.root, text="Max of (Set Ratio, Sort Ratio)", variable=self.matching_type_var, value=3).pack()
-        ctk.CTkRadioButton(self.root, text="QRatio", variable=self.matching_type_var, value=4).pack()
+        ctk.CTkLabel(self.main_frame, text="Select Matching Type", font=ctk.CTkFont(size=13, weight="bold")).pack(pady=5)
+        
+        ctk.CTkRadioButton(self.main_frame, text="Set Ratio", variable=self.matching_type_var, value=1, radiobutton_width = 18, radiobutton_height = 18, border_width_checked=5).pack()
+        ctk.CTkRadioButton(self.main_frame, text="Sort Ratio", variable=self.matching_type_var, value=2, radiobutton_width = 18, radiobutton_height = 18, border_width_checked=5).pack()
+        ctk.CTkRadioButton(self.main_frame, text="Max of (Set Ratio, Sort Ratio)", variable=self.matching_type_var, value=3, radiobutton_width = 18, radiobutton_height = 18, border_width_checked=5).pack()
+        ctk.CTkRadioButton(self.main_frame, text="QRatio", variable=self.matching_type_var, value=4, radiobutton_width = 18, radiobutton_height = 18, border_width_checked=5).pack()
     
         # Progress bar and label
-        self.progress_bar = ctk.CTkProgressBar(self.root, width=300)
+        self.progress_bar = ctk.CTkProgressBar(self.main_frame, width=300)
         self.progress_bar.set(0)
         self.progress_bar.pack(pady=10)
     
-        self.progress_label = ctk.CTkLabel(self.root, text="Progress: 0/0")
+        self.progress_label = ctk.CTkLabel(self.main_frame, text="Progress: 0/0")
         self.progress_label.pack(pady=5)
-    
-        # Additional switches
-        self.fact_switch = ctk.CTkSwitch(self.root, text="Fuzzy animal fact")
-        self.fact_switch.pack(pady=10)
-    
-        self.clean_switch = ctk.CTkSwitch(self.root, text="Prep for manual checks")
-        self.clean_switch.pack(pady=10)
-    
-        self.keep_columns_switch = ctk.CTkSwitch(self.root, text="Keep all columns")
-        self.keep_columns_switch.pack(pady=10)
-    
+
+        # Row 1: Radio buttons (3 in a row)
+        self.multi_match_switch = ctk.CTkSwitch(self.advanced_options_frame, text="2 Column Match")
+        self.dataset_1_match_2_dropdown = ctk.CTkOptionMenu(self.advanced_options_frame, variable= self.dataset_1_match_col_2, values=["Match Column 2"])
+        self.dataset_2_match_2_dropdown = ctk.CTkOptionMenu(self.advanced_options_frame, variable= self.dataset_2_match_col_2, values=["Match Column 2"])
+
+        # Row 2: Radio buttons (3 in a row)
+        self.combine_score_dropdown = ctk.CTkOptionMenu(self.advanced_options_frame, variable=self.score_method_var, values=["Maxium", "Minimum", "Weighted Average"])
+        self.weight_1_slider = ctk.CTkSlider(self.advanced_options_frame, from_=0, to = 1, variable = self.weight_var, width = 100)
+        self.slider_label = ctk.CTkLabel(self.advanced_options_frame, text = "Score 1 Weight:")
+        self.slider_value = ctk.CTkLabel(self.advanced_options_frame, textvariable = self.weight_var)
+
+        # Rows 3-5: Switches
+        self.fact_switch = ctk.CTkSwitch(self.advanced_options_frame, text="Fuzzy animal fact", )
+        self.clean_switch = ctk.CTkSwitch(self.advanced_options_frame, text="Prep for manual checks")
+        self.keep_columns_switch = ctk.CTkSwitch(self.advanced_options_frame, text="Keep all columns")
+
+
+
         # Run matching button
-        self.run_matching_button = ctk.CTkButton(self.root, text="Run Matching", command=self.run_matching, width=200)
+        self.run_matching_button = ctk.CTkButton(self.main_frame, text="Run Matching", command=self.run_matching, width=200)
         self.run_matching_button.pack(pady=10)
         
         # Start the GUI loop
         self.root.mainloop()
-        
-    def create_radio_buttons(self, label_text, variable, options, default_value):
+
+    def toggle_advanced_options(self):
+        if self.is_advanced_visible:
+            # Hide advanced options and resize window back
+            self.root.geometry("550x600")
+            self.advanced_options_frame.place_forget()
+        else:
+            # Show advanced options and expand window
+            self.root.geometry("1050x600")
+            self.advanced_options_frame.place(relx=0.97, y=50,  anchor = "ne")  # Adjust placement for advanced options
+
+            self.terminal_output_text.grid(row = 0, column = 0, columnspan = 3, pady = 10)
+            self.multi_match_switch.grid(row=1, column=0, padx=5, pady=5, sticky="w")
+            self.dataset_1_match_2_dropdown.grid(row=1, column=1, padx=5, pady=5, sticky="w")
+            self.dataset_2_match_2_dropdown.grid(row=1, column=2, padx=5, pady=5, sticky="w")
+
+            self.combine_score_dropdown.grid(row=2, column=0, padx=5, pady=5, sticky="w")
+            self.weight_1_slider.grid(row=2, column=1, padx=5, pady=5, columnspan=1)  # Slider spans 2 columns
+            self.slider_label.grid(row=2, column=2, padx=5, pady=5, sticky ="w")  # Place label to the left of the slider
+            self.slider_value.grid(row=2, column=2, padx=5, pady=5, sticky="e")  # Place label to the left of the slider
+
+
+
+            self.fact_switch.grid(row=3, column=0, columnspan=3, pady=10)
+            self.fact_switch.select()
+            self.clean_switch.grid(row=4, column=0, columnspan=3, pady=10)
+            self.keep_columns_switch.grid(row=5, column=0, columnspan=3, pady=10)
+
+        self.is_advanced_visible = not self.is_advanced_visible
+
+    def create_radio_buttons(self, frame, label_text, variable, options, default_value):
         """Helper function to create a label and radio buttons."""
-        ctk.CTkLabel(self.root, text=label_text).pack(pady=5)
+        ctk.CTkLabel(frame, text=label_text).pack(pady=5)
         variable.set(default_value)
         for text, value in options:
-            ctk.CTkRadioButton(self.root, text=text, variable=variable, value=value).pack()
+            ctk.CTkRadioButton(frame, text=text, variable=variable, value=value).pack()
 
         
-    def create_button(self, text, var, is_output=False):
-        button = ctk.CTkButton(self.root, text=text, command=lambda: self.browse_file(var, button, is_output), width=200)
+    def create_button(self, frame, text, var, is_output=False):
+        button = ctk.CTkButton(frame, text=text, command=lambda: self.browse_file(var, button, is_output), width=200)
         button.pack(pady=10)
         return button
     
-    def create_dataset_frame(self, dataset_num, path_variable, id_variable, match_variable):
+    def create_dataset_frame(self,frame, dataset_num, path_variable, id_variable, match_variable):
         # Create the frame for the dataset
-        dataset_frame = ctk.CTkFrame(self.root)
+        dataset_frame = ctk.CTkFrame(frame, fg_color=["gray92", "gray14"])
         dataset_frame.pack(pady=10)
     
         # Create the button for selecting the dataset
@@ -423,9 +520,6 @@ class MatchingTool:
                     if score > max_score:
                         max_score = score
                         best_match = j
-                    
-                    data.append([dataset_1_df[id_col_1].iloc[i], dataset_2_df[id_col_2].iloc[j], 
-                                 dataset_1_df[match_col_1].iloc[i], dataset_2_df[match_col_2].iloc[j], score])
                 
                 if best_match is not None:
                     data.append([dataset_1_df[id_col_1].iloc[i], dataset_2_df[id_col_2].iloc[best_match], 
@@ -468,75 +562,29 @@ class MatchingTool:
         return data
 
     def clean_data(self, result_df, id_col_1):
-        # Ensure columns exist and check for NaN values
+        result_df['group_id'] = result_df.groupby([id_col_1], sort=False).ngroup() + 1
+        result_df.sort_values(by=['group_id', 'Match Score'], ascending=[True, False], inplace=True)
+        result_df.drop(columns = ['group_id'], inplace = True)
+
         if self.clean_switch.get() == 1:
             result_df['Valid Match'] = 0
             result_df['Comments'] = ''
-            result_df['group_id'] = result_df.groupby([id_col_1], sort=False).ngroup() + 1
-            result_df['is_highest'] = result_df.groupby('group_id')['Match Score'].transform('max') == result_df['Match Score']
-            result_df.sort_values(by=['group_id', 'Match Score'], ascending=[True, False], inplace=True)
-            
-            # Apply background color formatting for groups
-            highlighted_data = []
-            current_group_index = -1
-            current_group = None
-    
-            for index, row in result_df.iterrows():
-                if row['group_id'] != current_group:
-                    current_group_index += 1
-                    current_group = row['group_id']
-                    
-                bg_color = self.get_group_color(current_group_index, row['is_highest'])
-                highlighted_data.append({**row.to_dict(), 'Background Color': bg_color})
-    
-            highlighted_df = pd.DataFrame(highlighted_data)
-            return highlighted_df
-    
+
         return result_df  # Return unmodified if no cleaning is needed
     
     def save_data(self, result_df):
-        """
-        Save the cleaned or non-cleaned dataset to the specified file format.
-        """
+
         output_file = self.output_path.get()
     
         try:
-            if self.clean_switch.get() == 0:
-                # Save non-cleaned data
-                if output_file.endswith('.xlsx'):
-                    result_df.to_excel(output_file, index=False, engine="xlsxwriter")
-                elif output_file.endswith('.csv'):
-                    new_pa_dataframe = pa.Table.from_pandas(result_df)
-                    csv.write_csv(new_pa_dataframe, output_file)
-                elif output_file.endswith('.dta'):
-                    result_df.to_stata(output_file, index=False)
-            
-            else:
-                # Save cleaned data with formatting if clean_switch == 1
-                highlighted_df = result_df.drop(columns=['Background Color', 'group_id', 'is_highest'])
-                if output_file.endswith('.xlsx'):
-                    with pd.ExcelWriter(output_file, engine='xlsxwriter') as writer:
-                        highlighted_df.to_excel(writer, index=False, sheet_name='Matches')
-                        workbook = writer.book
-                        worksheet = writer.sheets['Matches']
-                        
-                        # Apply cell format for background color
-                        for i, color in enumerate(result_df['Background Color']):
-                            for j in range(len(highlighted_df.columns)):
-                                hex_color = mcolors.to_hex(color).replace('#', '')
-                                cell_format = workbook.add_format({'bg_color': hex_color})
-                                worksheet.write(i + 1, j, highlighted_df.iloc[i, j], cell_format)
-                        
-                        # Adjust column width
-                        for col_num, value in enumerate(highlighted_df.columns):
-                            worksheet.set_column(col_num, col_num, 20)
-                
-                elif output_file.endswith('.csv'):
-                    new_pa_dataframe = pa.Table.from_pandas(highlighted_df)
-                    csv.write_csv(new_pa_dataframe, output_file)
-                
-                elif output_file.endswith('.dta'):
-                    highlighted_df.to_stata(output_file, index=False)
+            # Save non-cleaned data
+            if output_file.endswith('.xlsx'):
+                result_df.to_excel(output_file, index=False, engine="xlsxwriter")
+            elif output_file.endswith('.csv'):
+                new_pa_dataframe = pa.Table.from_pandas(result_df, preserve_index = False)
+                csv.write_csv(new_pa_dataframe, output_file)
+            elif output_file.endswith('.dta'):
+                result_df.to_stata(output_file, index=False)
     
             # Add an animal fact if fact_switch is set
             animal_fact = "\n\n" + random.choice(facts) if self.fact_switch.get() == 1 else ""
@@ -634,16 +682,8 @@ class MatchingTool:
 
     def show_error(self, message):
         messagebox.showerror("Error", message)
+        print(message)        
         
-        
-    def get_group_color(self, group_index, is_highest_score):
-        color_name = 'blue' if group_index % 2 == 0 else 'green'
-        return group_colors[color_name]['dark'] if is_highest_score else group_colors[color_name]['light']
-
-group_colors = {
-        'blue': {'light': "#f6e3de", 'dark': "#f6e3de"},
-        'green': {'light': "#def6f5", 'dark': "#def6f5"}
-}
 facts =["Rabbits don't have pads on their paws, only fur. So if you see a cartoon rabbit with pads on it's paw, completely wrong.",
             "Fuzzy animals are very cute - Chiara", 
             "I know one but it's in the back of my head - Owen",
