@@ -11,7 +11,7 @@ import pyarrow as pa
 import pyarrow.csv as csv
 
 ctk.set_appearance_mode("dark")
-ctk.set_default_color_theme("rbb_theme.json")
+#ctk.set_default_color_theme("rbb_theme.json")
 
 # Initialize main window
 root = ctk.CTk()
