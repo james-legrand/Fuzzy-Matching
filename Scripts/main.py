@@ -6,12 +6,12 @@ import os
 import random
 import threading
 from typing import Callable, Union
-from matplotlib import colors as mcolors
 import pyarrow as pa
 import pyarrow.csv as csv
 import queue
 import sys
 import io
+from datetime import datetime
 
 class TextRedirector(io.StringIO):
     def __init__(self, widget):
@@ -25,8 +25,6 @@ class TextRedirector(io.StringIO):
 
     def flush(self):
         pass  # No buffering is required
-
-
 
 class IntSpinbox(ctk.CTkFrame):
     def __init__(self, *args,
@@ -133,7 +131,6 @@ class MatchingTool:
         
         # Set appearance and theme
         ctk.set_appearance_mode("dark")
-        #ctk.set_default_color_theme("rbb_theme.json")
 
         # Main title
         ctk.CTkLabel(self.root, text="Fuzzy Matching Tool", font=ctk.CTkFont(size=20, weight="bold")).pack(pady=10)
@@ -265,8 +262,6 @@ class MatchingTool:
             self.slider_label.grid(row=2, column=2, padx=5, pady=5, sticky ="w")  # Place label to the left of the slider
             self.slider_value.grid(row=2, column=2, padx=5, pady=5, sticky="e")  # Place label to the left of the slider
 
-
-
             self.fact_switch.grid(row=3, column=0, columnspan=3, pady=10)
             self.fact_switch.select()
             self.clean_switch.grid(row=4, column=0, columnspan=3, pady=10)
@@ -366,9 +361,10 @@ class MatchingTool:
                     self.update_dropdowns(
                         var, 
                         self.dataset_1_id_dropdown if var == self.dataset_1_path else self.dataset_2_id_dropdown, 
-                        self.dataset_1_match_dropdown if var == self.dataset_1_path else self.dataset_2_match_dropdown
+                        self.dataset_1_match_dropdown if var == self.dataset_1_path else self.dataset_2_match_dropdown,
+                        self.dataset_1_match_2_dropdown if var == self.dataset_1_path else self.dataset_2_match_2_dropdown
                     )
-
+            self.debug_message(f"Path set: {file_path}")
 
     def show_dataset_info(self, var, event, label):
         file_path = var.get()
@@ -377,10 +373,11 @@ class MatchingTool:
                 rows, cols = self.dataset_cache[file_path]  # Retrieve cached dimensions
                 label.configure(text=f"{cols} columns, {rows} rows")
     
-    def update_dropdowns(self, var, dropdown_id, dropdown_match):
+    def update_dropdowns(self, var, dropdown_id, dropdown_match1, dropdown_match2):
         # Clear the dropdowns
         dropdown_id.set("ID Column")
-        dropdown_match.set("Match Column")
+        dropdown_match1.set("Match Column")
+        dropdown_match2.set("Match Column 2")
     
         if var.get():
             if var.get().endswith('.xlsx'):
@@ -391,7 +388,8 @@ class MatchingTool:
                 df = pd.read_stata(var.get())
             columns = df.columns.tolist()
             dropdown_id.configure(values=columns)
-            dropdown_match.configure(values=columns)
+            dropdown_match1.configure(values=columns)
+            dropdown_match2.configure(values=columns)
             
     def validate_inputs(self):
         # Check if Dataset 1 path is provided
@@ -453,14 +451,18 @@ class MatchingTool:
         else:
             self.show_error(f"Unsupported file format for {dataset_path}.")
             return None, None, None, None
-    
+        
+        # Convert all variables to strings for matching
+        df = df.astype(str)
+
         # Retrieve cached row data
         rows, _ = self.dataset_cache[dataset_path]
     
         # Resolve selected columns
         id_column = id_col.get()
         match_column = match_col.get()
-        other_cols = [col for col in df.columns if col != match_column]
+        
+        self.debug_message(f"Dataset {dataset_path} loaded")
     
         return df, rows, id_column, match_column, other_cols
     
@@ -560,6 +562,37 @@ class MatchingTool:
                 self.update_progress(update_threshold, total_tasks)
 
         return data
+    
+    def generate_multi_matches(self, dataset_1_df, dataset_2_df, match_col_1, match_col_2, 
+                     id_col_1, id_col_2, match_2_col_1, match_2_col_2, scorer, total_tasks, update_threshold):
+        data = []
+        
+        for i in range(len(dataset_1_df)):
+            for j in range(len(dataset_2_df)):
+
+                if pd.isna(dataset_1_df[match_col_1].iloc[i]) or pd.isna(dataset_2_df[match_col_2].iloc[j]):
+                    score1 = 'N/A'
+                else:
+                    score1 = scorer(dataset_1_df[match_col_1].iloc[i], dataset_2_df[match_col_2].iloc[j])
+
+                if pd.isna(dataset_1_df[match_2_col_1].iloc[i]) or pd.isna(dataset_2_df[match_2_col_2].iloc[j]):
+                    score2 = 'N/A'
+                else:
+                    score2 = scorer(dataset_1_df[match_2_col_1].iloc[i], dataset_2_df[match_2_col_2].iloc[j])
+
+                if self.score_method_var == "Maximum":
+                    score = max(score1, score2)
+                elif self.score_method_var == "Minimum":
+                    score = min(score1, score2)
+                elif self.score_method_var == "Weighted Average":
+                    score1_weight = self.weight_var
+                    score = score1_weight * score1 + (1-score1_weight) * score2
+
+                data.append([dataset_1_df[id_col_1].iloc[i], dataset_2_df[id_col_2].iloc[j], 
+                            dataset_1_df[match_col_1].iloc[i], dataset_2_df[match_col_2].iloc[j], dataset_2_df[match_2_col_1].iloc[i], dataset_2_df[match_2_col_2].iloc[j], score1, score2, score])
+                self.update_progress(update_threshold, total_tasks)
+
+        return data
 
     def clean_data(self, result_df, id_col_1):
         result_df['group_id'] = result_df.groupby([id_col_1], sort=False).ngroup() + 1
@@ -569,6 +602,7 @@ class MatchingTool:
         if self.clean_switch.get() == 1:
             result_df['Valid Match'] = 0
             result_df['Comments'] = ''
+        self.debug_message(f"Output cleaned")
 
         return result_df  # Return unmodified if no cleaning is needed
     
@@ -589,7 +623,8 @@ class MatchingTool:
             # Add an animal fact if fact_switch is set
             animal_fact = "\n\n" + random.choice(facts) if self.fact_switch.get() == 1 else ""
             messagebox.showinfo("Success", "Matching completed and saved to " + output_file + animal_fact)
-    
+
+            self.debug_message(f"Output saved to {output_file}")
         except PermissionError:
             self.show_error("Write permission denied. Please close the output file.")
             self.run_matching_button.configure(state="normal")
@@ -621,17 +656,27 @@ class MatchingTool:
         # Initialize data structures for matching process
         self.current_progress = 0
         self.progress_queue = queue.Queue()
+        self.debug_message(f"Progress queue initialised")
     
         self.run_matching_button.configure(state="disabled")
 
         def run_in_thread():
             # Run generate_matches and create result_df in a separate thread
-            data = self.generate_matches(
-                selected_output_type, dataset_1_df, dataset_2_df, match_col_1,
-                match_col_2, id_col_1, id_col_2, scorer, total_tasks, update_threshold
-            )
+            if self.multi_match_switch.get():
+                data = self.generate_multi_matches(
+                    dataset_1_df, dataset_2_df, match_col_1,
+                    match_col_2, id_col_1, id_col_2, self.dataset_1_match_col_2.get(), self.dataset_2_match_col_2.get(), scorer, total_tasks, update_threshold
+                )
 
-            column_list = [id_col_1, id_col_2, match_col_1, match_col_2, 'Match Score']
+                column_list = [id_col_1, id_col_2, match_col_1, match_col_2, self.dataset_1_match_col_2.get(), self.dataset_2_match_col_2.get(), 'Match Score']
+            else:
+                data = self.generate_matches(
+                    selected_output_type, dataset_1_df, dataset_2_df, match_col_1,
+                    match_col_2, id_col_1, id_col_2, scorer, total_tasks, update_threshold
+                )
+
+                column_list = [id_col_1, id_col_2, match_col_1, match_col_2, 'Match Score']
+
             self.result_df = pd.DataFrame(data, columns=column_list)
 
             self.progress_queue.put(("result", None))  # Notify progress checker
@@ -639,7 +684,10 @@ class MatchingTool:
         worker_thread = threading.Thread(
             target=run_in_thread, daemon=True
         )
+        self.debug_message(f"Worker thread created")
+
         worker_thread.start()
+        self.debug_message(f"Matching started")
 
         def check_progress():
             try:
@@ -658,7 +706,9 @@ class MatchingTool:
 
         def on_result_ready():
             # This function is triggered after result_df is available
+            self.debug_message(f"Matching completed")
             result_df = self.result_df
+            
             if self.keep_columns_switch.get() == 1:
                 for df, cols, id_col in [(dataset_1_df, dataset_1_other_cols, id_col_1),
                                         (dataset_2_df, dataset_2_other_cols, id_col_2)]:
@@ -682,7 +732,15 @@ class MatchingTool:
 
     def show_error(self, message):
         messagebox.showerror("Error", message)
-        print(message)        
+        self.debug_message(message)
+
+    def debug_message(self,message):
+        c = datetime.now()
+        current_time = c.strftime('%H:%M:%S')
+
+        print(current_time + " " + message)
+
+
         
 facts =["Rabbits don't have pads on their paws, only fur. So if you see a cartoon rabbit with pads on it's paw, completely wrong.",
             "Fuzzy animals are very cute - Chiara", 
