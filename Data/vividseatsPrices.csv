@@ -1,0 +1,698 @@
+vividseatsID,vividseatsTitle,vividseatsPrice
+VIVID - 0,Toronto Blue Jays at Baltimore Orioles,70
+VIVID - 1,Texas Rangers at Baltimore Orioles,64
+VIVID - 2,Oakland Athletics at Baltimore Orioles,78
+VIVID - 3,Minnesota Twins at Baltimore Orioles,58
+VIVID - 4,New York Yankees at Baltimore Orioles,65
+VIVID - 5,Philadelphia Phillies at Miami Marlins,102
+VIVID - 6,New York Mets at Miami Marlins,103
+VIVID - 7,Washington Nationals at Miami Marlins,71
+VIVID - 8,Houston Astros at Miami Marlins,94
+VIVID - 9,Atlanta Braves at Miami Marlins,56
+VIVID - 10,Cincinnati Reds at Miami Marlins,120
+VIVID - 11,San Diego Padres at Miami Marlins,103
+VIVID - 12,Chicago Cubs at Miami Marlins,81
+VIVID - 13,Colorado Rockies at Miami Marlins,66
+VIVID - 14,Los Angeles Dodgers at Miami Marlins,70
+VIVID - 15,Toronto Blue Jays at Miami Marlins,86
+VIVID - 16,Tampa Bay Rays at Miami Marlins,47
+VIVID - 17,Arizona Diamondbacks at Miami Marlins,80
+VIVID - 18,St. Louis Cardinals at Miami Marlins,77
+VIVID - 19,Boston Red Sox at Miami Marlins,59
+VIVID - 20,San Francisco Giants at Miami Marlins,54
+VIVID - 21,Pittsburgh Pirates at Miami Marlins,80
+VIVID - 22,Milwaukee Brewers at Miami Marlins,91
+VIVID - 23,Cincinnati Reds at Pittsburgh Pirates,105
+VIVID - 24,Chicago Cubs at Pittsburgh Pirates,53
+VIVID - 25,Houston Astros at Pittsburgh Pirates,56
+VIVID - 26,St. Louis Cardinals at Pittsburgh Pirates,47
+VIVID - 27,Milwaukee Brewers at Pittsburgh Pirates,106
+VIVID - 28,Washington Nationals at Pittsburgh Pirates,103
+VIVID - 29,New York Mets at Pittsburgh Pirates,89
+VIVID - 30,Atlanta Braves at Pittsburgh Pirates,87
+VIVID - 31,San Diego Padres at Pittsburgh Pirates,58
+VIVID - 32,Arizona Diamondbacks at Pittsburgh Pirates,49
+VIVID - 33,San Francisco Giants at Pittsburgh Pirates,80
+VIVID - 34,Los Angeles Dodgers at Pittsburgh Pirates,84
+VIVID - 35,Colorado Rockies at Pittsburgh Pirates,91
+VIVID - 36,Kansas City Royals at Pittsburgh Pirates,87
+VIVID - 37,Minnesota Twins at Pittsburgh Pirates,87
+VIVID - 38,Detroit Tigers at Pittsburgh Pirates,92
+VIVID - 39,Miami Marlins at Pittsburgh Pirates,103
+VIVID - 40,Philadelphia Phillies at Pittsburgh Pirates,37
+VIVID - 41,New York Mets at Philadelphia Phillies,78
+VIVID - 42,Pittsburgh Pirates at Philadelphia Phillies,67
+VIVID - 43,Miami Marlins at Philadelphia Phillies,52
+VIVID - 44,Washington Nationals at Philadelphia Phillies,82
+VIVID - 45,Atlanta Braves at Philadelphia Phillies,95
+VIVID - 46,Colorado Rockies at Philadelphia Phillies,49
+VIVID - 47,Chicago Cubs at Philadelphia Phillies,52
+VIVID - 48,San Francisco Giants at Philadelphia Phillies,56
+VIVID - 49,Houston Astros at Philadelphia Phillies,88
+VIVID - 50,Arizona Diamondbacks at Philadelphia Phillies,79
+VIVID - 51,St. Louis Cardinals at Philadelphia Phillies,107
+VIVID - 52,Milwaukee Brewers at Philadelphia Phillies,119
+VIVID - 53,San Diego Padres at Philadelphia Phillies,64
+VIVID - 54,Boston Red Sox at Philadelphia Phillies,62
+VIVID - 55,Tampa Bay Rays at Philadelphia Phillies,37
+VIVID - 56,Cincinnati Reds at Philadelphia Phillies,46
+VIVID - 57,Los Angeles Dodgers at Philadelphia Phillies,43
+VIVID - 58,Seattle Mariners at New York Yankees,71
+VIVID - 59,Toronto Blue Jays at New York Yankees,76
+VIVID - 60,Tampa Bay Rays at New York Yankees,59
+VIVID - 61,Baltimore Orioles at New York Yankees,113
+VIVID - 62,Minnesota Twins at New York Yankees,64
+VIVID - 63,Kansas City Royals at New York Yankees,44
+VIVID - 64,Cincinnati Reds at New York Yankees,71
+VIVID - 65,Texas Rangers at New York Yankees,99
+VIVID - 66,Chicago White Sox at New York Yankees,57
+VIVID - 67,New York Mets at New York Yankees,67
+VIVID - 68,Los Angeles Angels of Anaheim at New York Yankees,47
+VIVID - 69,Atlanta Braves at New York Yankees,100
+VIVID - 70,Detroit Tigers at New York Yankees,111
+VIVID - 71,Boston Red Sox at New York Yankees,65
+VIVID - 72,Cleveland Indians at New York Yankees,49
+VIVID - 73,Boston Red Sox at Baltimore Orioles,42
+VIVID - 74,Tampa Bay Rays at Baltimore Orioles,69
+VIVID - 75,Chicago White Sox at Baltimore Orioles,105
+VIVID - 76,Seattle Mariners at Baltimore Orioles,96
+VIVID - 77,Kansas City Royals at Baltimore Orioles,81
+VIVID - 78,Cleveland Indians at Baltimore Orioles,92
+VIVID - 79,Philadelphia Phillies at Baltimore Orioles,76
+VIVID - 80,Pittsburgh Pirates at Baltimore Orioles,43
+VIVID - 81,Detroit Tigers at Baltimore Orioles,38
+VIVID - 82,Washington Nationals at Baltimore Orioles,75
+VIVID - 83,Miami Marlins at Washington Nationals,46
+VIVID - 84,San Francisco Giants at Washington Nationals,67
+VIVID - 85,Colorado Rockies at Washington Nationals,57
+VIVID - 86,Cincinnati Reds at Washington Nationals,85
+VIVID - 87,Los Angeles Dodgers at Washington Nationals,52
+VIVID - 88,St. Louis Cardinals at Washington Nationals,48
+VIVID - 89,Houston Astros at Washington Nationals,66
+VIVID - 90,New York Mets at Washington Nationals,58
+VIVID - 91,Philadelphia Phillies at Washington Nationals,38
+VIVID - 92,Milwaukee Brewers at Washington Nationals,123
+VIVID - 93,Baltimore Orioles at Washington Nationals,42
+VIVID - 94,Pittsburgh Pirates at Washington Nationals,83
+VIVID - 95,Tampa Bay Rays at Washington Nationals,92
+VIVID - 96,Chicago Cubs at Washington Nationals,81
+VIVID - 97,Arizona Diamondbacks at Washington Nationals,52
+VIVID - 98,New York Yankees at Washington Nationals,80
+VIVID - 99,Atlanta Braves at Washington Nationals,55
+VIVID - 100,San Diego Padres at Washington Nationals,34
+VIVID - 101,Toronto Blue Jays at Boston Red Sox,42
+VIVID - 102,Cleveland Indians at Boston Red Sox,51
+VIVID - 103,Texas Rangers at Boston Red Sox,48
+VIVID - 104,Tampa Bay Rays at Boston Red Sox,91
+VIVID - 105,New York Yankees at Boston Red Sox,114
+VIVID - 106,Chicago White Sox at Boston Red Sox,93
+VIVID - 107,Kansas City Royals at Boston Red Sox,43
+VIVID - 108,Minnesota Twins at Boston Red Sox,95
+VIVID - 109,Baltimore Orioles at Boston Red Sox,61
+VIVID - 110,Washington Nationals at Boston Red Sox,83
+VIVID - 111,Detroit Tigers at Boston Red Sox,85
+VIVID - 112,Oakland Athletics at Boston Red Sox,40
+VIVID - 113,Atlanta Braves at Boston Red Sox,74
+VIVID - 114,Seattle Mariners at Boston Red Sox,66
+VIVID - 115,Miami Marlins at Boston Red Sox,67
+VIVID - 116,Oakland Athletics at New York Yankees,60
+VIVID - 117,Baltimore Orioles at Minnesota Twins,105
+VIVID - 118,Toronto Blue Jays at Minnesota Twins,75
+VIVID - 119,Seattle Mariners at Minnesota Twins,72
+VIVID - 120,Texas Rangers at Minnesota Twins,75
+VIVID - 121,Cleveland Indians at Minnesota Twins,66
+VIVID - 122,Los Angeles Angels of Anaheim at Minnesota Twins,86
+VIVID - 123,Chicago White Sox at Minnesota Twins,69
+VIVID - 124,Kansas City Royals at Minnesota Twins,106
+VIVID - 125,Tampa Bay Rays at Minnesota Twins,62
+VIVID - 126,Detroit Tigers at Minnesota Twins,123
+VIVID - 127,Boston Red Sox at Minnesota Twins,55
+VIVID - 128,Chicago Cubs at Minnesota Twins,98
+VIVID - 129,Philadelphia Phillies at Minnesota Twins,84
+VIVID - 130,Oakland Athletics at Minnesota Twins,60
+VIVID - 131,Milwaukee Brewers at Minnesota Twins,63
+VIVID - 132,Houston Astros at Milwaukee Brewers,87
+VIVID - 133,Miami Marlins at Milwaukee Brewers,77
+VIVID - 134,Cincinnati Reds at Milwaukee Brewers,64
+VIVID - 135,Chicago Cubs at Milwaukee Brewers,59
+VIVID - 136,Pittsburgh Pirates at Milwaukee Brewers,65
+VIVID - 137,Minnesota Twins at Milwaukee Brewers,134
+VIVID - 138,San Francisco Giants at Milwaukee Brewers,102
+VIVID - 139,Los Angeles Dodgers at Milwaukee Brewers,117
+VIVID - 140,Washington Nationals at Milwaukee Brewers,69
+VIVID - 141,Colorado Rockies at Milwaukee Brewers,75
+VIVID - 142,Arizona Diamondbacks at Milwaukee Brewers,75
+VIVID - 143,San Diego Padres at Milwaukee Brewers,66
+VIVID - 144,Toronto Blue Jays at Milwaukee Brewers,60
+VIVID - 145,St. Louis Cardinals at Milwaukee Brewers,74
+VIVID - 146,New York Mets at Milwaukee Brewers,75
+VIVID - 147,Philadelphia Phillies at Milwaukee Brewers,58
+VIVID - 148,Atlanta Braves at Milwaukee Brewers,122
+VIVID - 149,New York Yankees at Minnesota Twins,100
+VIVID - 150,Los Angeles Angels of Anaheim at Texas Rangers,119
+VIVID - 151,Tampa Bay Rays at Texas Rangers,97
+VIVID - 152,Seattle Mariners at Texas Rangers,58
+VIVID - 153,Minnesota Twins at Texas Rangers,98
+VIVID - 154,Houston Astros at Texas Rangers,79
+VIVID - 155,Detroit Tigers at Texas Rangers,72
+VIVID - 156,Cleveland Indians at Texas Rangers,38
+VIVID - 157,Boston Red Sox at Texas Rangers,40
+VIVID - 158,Chicago White Sox at Texas Rangers,57
+VIVID - 159,Oakland Athletics at Texas Rangers,45
+VIVID - 160,Colorado Rockies at Texas Rangers,45
+VIVID - 161,New York Yankees at Texas Rangers,45
+VIVID - 162,Arizona Diamondbacks at Texas Rangers,108
+VIVID - 163,Baltimore Orioles at Texas Rangers,54
+VIVID - 164,Toronto Blue Jays at Texas Rangers,82
+VIVID - 165,Kansas City Royals at Texas Rangers,114
+VIVID - 166,Minnesota Twins at Detroit Tigers,99
+VIVID - 167,Texas Rangers at Detroit Tigers,88
+VIVID - 168,Chicago White Sox at Detroit Tigers,107
+VIVID - 169,New York Yankees at Detroit Tigers,112
+VIVID - 170,St. Louis Cardinals at Detroit Tigers,72
+VIVID - 171,Cleveland Indians at Detroit Tigers,90
+VIVID - 172,Tampa Bay Rays at Detroit Tigers,110
+VIVID - 173,Kansas City Royals at Detroit Tigers,43
+VIVID - 174,Oakland Athletics at Detroit Tigers,51
+VIVID - 175,Boston Red Sox at Detroit Tigers,59
+VIVID - 176,Seattle Mariners at Detroit Tigers,56
+VIVID - 177,Baltimore Orioles at Detroit Tigers,113
+VIVID - 178,Colorado Rockies at Detroit Tigers,83
+VIVID - 179,Pittsburgh Pirates at Detroit Tigers,60
+VIVID - 180,Toronto Blue Jays at Detroit Tigers,117
+VIVID - 181,San Francisco Giants at Arizona Diamondbacks,94
+VIVID - 182,Houston Astros at Chicago Cubs,57
+VIVID - 183,Colorado Rockies at St. Louis Cardinals,72
+VIVID - 184,Cincinnati Reds at St. Louis Cardinals,47
+VIVID - 185,Cleveland Indians at St. Louis Cardinals,120
+VIVID - 186,San Francisco Giants at St. Louis Cardinals,86
+VIVID - 187,New York Mets at St. Louis Cardinals,49
+VIVID - 188,Milwaukee Brewers at St. Louis Cardinals,113
+VIVID - 189,Chicago Cubs at St. Louis Cardinals,77
+VIVID - 190,Philadelphia Phillies at St. Louis Cardinals,109
+VIVID - 191,Arizona Diamondbacks at St. Louis Cardinals,63
+VIVID - 192,Washington Nationals at St. Louis Cardinals,99
+VIVID - 193,Miami Marlins at St. Louis Cardinals,81
+VIVID - 194,San Diego Padres at St. Louis Cardinals,71
+VIVID - 195,Houston Astros at St. Louis Cardinals,77
+VIVID - 196,Pittsburgh Pirates at St. Louis Cardinals,69
+VIVID - 197,Kansas City Royals at St. Louis Cardinals,92
+VIVID - 198,Los Angeles Dodgers at St. Louis Cardinals,35
+VIVID - 199,Atlanta Braves at St. Louis Cardinals,33
+VIVID - 200,Chicago White Sox at St. Louis Cardinals,72
+VIVID - 201,Baltimore Orioles at Los Angeles Angels of Anaheim,56
+VIVID - 202,Oakland Athletics at Los Angeles Angels of Anaheim,62
+VIVID - 203,Chicago White Sox at Los Angeles Angels of Anaheim,55
+VIVID - 204,Tampa Bay Rays at Los Angeles Angels of Anaheim,115
+VIVID - 205,Toronto Blue Jays at Los Angeles Angels of Anaheim,35
+VIVID - 206,San Francisco Giants at Los Angeles Angels of Anaheim,97
+VIVID - 207,Texas Rangers at Los Angeles Angels of Anaheim,71
+VIVID - 208,New York Yankees at Los Angeles Angels of Anaheim,50
+VIVID - 209,Seattle Mariners at Los Angeles Angels of Anaheim,70
+VIVID - 210,Arizona Diamondbacks at Los Angeles Angels of Anaheim,56
+VIVID - 211,Kansas City Royals at Los Angeles Angels of Anaheim,92
+VIVID - 212,Cleveland Indians at Los Angeles Angels of Anaheim,45
+VIVID - 213,Los Angeles Dodgers at Los Angeles Angels of Anaheim,75
+VIVID - 214,Detroit Tigers at Los Angeles Angels of Anaheim,105
+VIVID - 215,Boston Red Sox at Los Angeles Angels of Anaheim,62
+VIVID - 216,Minnesota Twins at Los Angeles Angels of Anaheim,64
+VIVID - 217,Milwaukee Brewers at Chicago Cubs,77
+VIVID - 218,Cincinnati Reds at Chicago Cubs,98
+VIVID - 219,Pittsburgh Pirates at Chicago Cubs,66
+VIVID - 220,Atlanta Braves at Chicago Cubs,55
+VIVID - 221,Miami Marlins at Chicago Cubs,55
+VIVID - 222,New York Mets at Chicago Cubs,91
+VIVID - 223,Detroit Tigers at Chicago Cubs,107
+VIVID - 224,St. Louis Cardinals at Chicago Cubs,112
+VIVID - 225,San Francisco Giants at Chicago Cubs,68
+VIVID - 226,Chicago White Sox at Chicago Cubs,58
+VIVID - 227,Los Angeles Dodgers at Chicago Cubs,43
+VIVID - 228,Philadelphia Phillies at Chicago Cubs,67
+VIVID - 229,Boston Red Sox at Chicago Cubs,41
+VIVID - 230,San Diego Padres at Chicago Cubs,45
+VIVID - 231,Arizona Diamondbacks at Chicago Cubs,70
+VIVID - 232,Washington Nationals at Chicago Cubs,80
+VIVID - 233,Colorado Rockies at Chicago Cubs,62
+VIVID - 234,Los Angeles Dodgers at Arizona Diamondbacks,73
+VIVID - 235,St. Louis Cardinals at Arizona Diamondbacks,117
+VIVID - 236,San Diego Padres at Arizona Diamondbacks,78
+VIVID - 237,Atlanta Braves at Arizona Diamondbacks,101
+VIVID - 238,New York Mets at Arizona Diamondbacks,65
+VIVID - 239,Oakland Athletics at Arizona Diamondbacks,60
+VIVID - 240,Houston Astros at Arizona Diamondbacks,79
+VIVID - 241,Milwaukee Brewers at Arizona Diamondbacks,76
+VIVID - 242,Chicago Cubs at Arizona Diamondbacks,64
+VIVID - 243,Pittsburgh Pirates at Arizona Diamondbacks,75
+VIVID - 244,Washington Nationals at Arizona Diamondbacks,75
+VIVID - 245,Cincinnati Reds at Arizona Diamondbacks,66
+VIVID - 246,Colorado Rockies at Arizona Diamondbacks,51
+VIVID - 247,Miami Marlins at Arizona Diamondbacks,72
+VIVID - 248,San Francisco Giants  at Arizona Diamondbacks,50
+VIVID - 249,Philadelphia Phillies at Arizona Diamondbacks,122
+VIVID - 250,Detroit Tigers at Kansas City Royals,119
+VIVID - 251,Texas Rangers at Kansas City Royals,120
+VIVID - 252,Minnesota Twins at Kansas City Royals,68
+VIVID - 253,Chicago White Sox at Kansas City Royals,92
+VIVID - 254,Los Angeles Angels of Anaheim at Kansas City Royals,66
+VIVID - 255,Boston Red Sox at Kansas City Royals,54
+VIVID - 256,Cleveland Indians at Kansas City Royals,68
+VIVID - 257,Tampa Bay Rays at Kansas City Royals,89
+VIVID - 258,Toronto Blue Jays at Kansas City Royals,93
+VIVID - 259,Arizona Diamondbacks at Kansas City Royals,41
+VIVID - 260,New York Yankees at Kansas City Royals,56
+VIVID - 261,Oakland Athletics at Kansas City Royals,91
+VIVID - 262,Seattle Mariners at Kansas City Royals,54
+VIVID - 263,Milwaukee Brewers at Kansas City Royals,49
+VIVID - 264,St. Louis Cardinals at Kansas City Royals,65
+VIVID - 265,Baltimore Orioles at Kansas City Royals,40
+VIVID - 266,Kansas City Royals at Toronto Blue Jays,43
+VIVID - 267,Seattle Mariners at Toronto Blue Jays,72
+VIVID - 268,Tampa Bay Rays at Toronto Blue Jays,57
+VIVID - 269,Detroit Tigers at Toronto Blue Jays,69
+VIVID - 270,New York Yankees at Toronto Blue Jays,72
+VIVID - 271,Baltimore Orioles at Toronto Blue Jays,33
+VIVID - 272,Cleveland Indians at Toronto Blue Jays,65
+VIVID - 273,Boston Red Sox at Toronto Blue Jays,86
+VIVID - 274,Chicago White Sox at Toronto Blue Jays,64
+VIVID - 275,Minnesota Twins at Toronto Blue Jays,59
+VIVID - 276,Texas Rangers at Toronto Blue Jays,101
+VIVID - 277,Philadelphia Phillies at Toronto Blue Jays,47
+VIVID - 278,Oakland Athletics at Toronto Blue Jays,49
+VIVID - 279,New York Mets at Toronto Blue Jays,50
+VIVID - 280,Los Angeles Angels of Anaheim at Toronto Blue Jays,39
+VIVID - 281,Washington Nationals at Toronto Blue Jays,40
+VIVID - 282,Los Angeles Angels of Anaheim at Baltimore Orioles,39
+VIVID - 283,Los Angeles Angels of Anaheim at Boston Red Sox,39
+VIVID - 284,Pittsburgh Pirates at San Francisco Giants,66
+VIVID - 285,San Diego Padres at San Francisco Giants,56
+VIVID - 286,Philadelphia Phillies at San Francisco Giants,50
+VIVID - 287,Miami Marlins at San Francisco Giants,82
+VIVID - 288,Oakland Athletics at San Francisco Giants,83
+VIVID - 289,Philadelphia Phillies at New York Mets,56
+VIVID - 290,Atlanta Braves at New York Mets,102
+VIVID - 291,Pittsburgh Pirates at New York Mets,68
+VIVID - 292,New York Yankees at New York Mets,103
+VIVID - 293,Los Angeles Dodgers at San Francisco Giants,42
+VIVID - 294,Texas Rangers at San Francisco Giants,62
+VIVID - 295,Milwaukee Brewers at San Francisco Giants,85
+VIVID - 296,Houston Astros at San Francisco Giants,89
+VIVID - 297,Arizona Diamondbacks at San Francisco Giants,77
+VIVID - 298,Colorado Rockies at San Francisco Giants,126
+VIVID - 299,Atlanta Braves at San Francisco Giants,60
+VIVID - 300,Cincinnati Reds at San Francisco Giants,92
+VIVID - 301,Chicago Cubs at San Francisco Giants,118
+VIVID - 302,Oakland Athletics at Seattle Mariners,82
+VIVID - 303,Kansas City Royals at Seattle Mariners,34
+VIVID - 304,Baltimore Orioles at Seattle Mariners,101
+VIVID - 305,Detroit Tigers at Seattle Mariners,68
+VIVID - 306,Los Angeles Angels of Anaheim at Seattle Mariners,101
+VIVID - 307,Cleveland Indians at Seattle Mariners,91
+VIVID - 308,Texas Rangers at Seattle Mariners,60
+VIVID - 309,Chicago White Sox at Seattle Mariners,52
+VIVID - 310,Minnesota Twins at Seattle Mariners,58
+VIVID - 311,Tampa Bay Rays at Seattle Mariners,98
+VIVID - 312,Boston Red Sox at Seattle Mariners,46
+VIVID - 313,Los Angeles Dodgers at Seattle Mariners,73
+VIVID - 314,Toronto Blue Jays at Seattle Mariners,84
+VIVID - 315,San Francisco Giants at Seattle Mariners,83
+VIVID - 316,San Diego Padres at Seattle Mariners,44
+VIVID - 317,New York Yankees at Seattle Mariners,51
+VIVID - 318,New York Mets at San Francisco Giants,107
+VIVID - 319,Washington Nationals at San Francisco Giants,129
+VIVID - 320,St. Louis Cardinals at San Francisco Giants,56
+VIVID - 321,New York Mets at Atlanta Braves,66
+VIVID - 322,San Francisco Giants at Atlanta Braves,53
+VIVID - 323,Chicago Cubs at Atlanta Braves,50
+VIVID - 324,Colorado Rockies at Atlanta Braves,127
+VIVID - 325,Milwaukee Brewers at Atlanta Braves,79
+VIVID - 326,Washington Nationals at Atlanta Braves,110
+VIVID - 327,Miami Marlins at Atlanta Braves,108
+VIVID - 328,Philadelphia Phillies at Atlanta Braves,79
+VIVID - 329,San Diego Padres at Atlanta Braves,79
+VIVID - 330,Toronto Blue Jays at Atlanta Braves,86
+VIVID - 331,Los Angeles Dodgers at Atlanta Braves,62
+VIVID - 332,Pittsburgh Pirates at Atlanta Braves,104
+VIVID - 333,St. Louis Cardinals at Atlanta Braves,55
+VIVID - 334,New York Yankees at Atlanta Braves,45
+VIVID - 335,Cincinnati Reds at Atlanta Braves,62
+VIVID - 336,Houston Astros at Atlanta Braves,109
+VIVID - 337,Arizona Diamondbacks at Atlanta Braves,85
+VIVID - 338,Baltimore Orioles at Atlanta Braves,73
+VIVID - 339,Houston Astros at Cincinnati Reds,76
+VIVID - 340,Washington Nationals at Cincinnati Reds,64
+VIVID - 341,Colorado Rockies at Cincinnati Reds,61
+VIVID - 342,Pittsburgh Pirates at Cincinnati Reds,70
+VIVID - 343,Milwaukee Brewers at Cincinnati Reds,82
+VIVID - 344,Atlanta Braves at Cincinnati Reds,62
+VIVID - 345,St. Louis Cardinals at Cincinnati Reds,67
+VIVID - 346,San Diego Padres at Cincinnati Reds,70
+VIVID - 347,Los Angeles Dodgers at Cincinnati Reds,71
+VIVID - 348,New York Mets at Cincinnati Reds,67
+VIVID - 349,Detroit Tigers at Cincinnati Reds,93
+VIVID - 350,Chicago Cubs at Cincinnati Reds,87
+VIVID - 351,San Francisco Giants at Cincinnati Reds,91
+VIVID - 352,Philadelphia Phillies at Cincinnati Reds,73
+VIVID - 353,Arizona Diamondbacks at Cincinnati Reds,84
+VIVID - 354,Cleveland Indians at Cincinnati Reds,61
+VIVID - 355,Minnesota Twins at Cincinnati Reds,67
+VIVID - 356,Texas Rangers at Tampa Bay Rays,79
+VIVID - 357,Detroit Tigers at Tampa Bay Rays,66
+VIVID - 358,Boston Red Sox at Tampa Bay Rays,54
+VIVID - 359,Baltimore Orioles at Tampa Bay Rays,57
+VIVID - 360,Miami Marlins at Tampa Bay Rays,101
+VIVID - 361,Atlanta Braves at Tampa Bay Rays,40
+VIVID - 362,Toronto Blue Jays at Tampa Bay Rays,67
+VIVID - 363,Oakland Athletics at Tampa Bay Rays,89
+VIVID - 364,Minnesota Twins at Tampa Bay Rays,74
+VIVID - 365,Los Angeles Angels of Anaheim at Tampa Bay Rays,76
+VIVID - 366,New York Yankees at Tampa Bay Rays,62
+VIVID - 367,Cleveland Indians at Tampa Bay Rays,62
+VIVID - 368,Seattle Mariners at Tampa Bay Rays,65
+VIVID - 369,Kansas City Royals at Tampa Bay Rays,112
+VIVID - 370,Chicago White Sox at Tampa Bay Rays,93
+VIVID - 371,New York Mets at Tampa Bay Rays,94
+VIVID - 372,Chicago Cubs at New York Mets,61
+VIVID - 373,Cincinnati Reds at New York Mets,63
+VIVID - 374,Washington Nationals at New York Mets,44
+VIVID - 375,Houston Astros at New York Mets,55
+VIVID - 376,Miami Marlins at New York Mets,49
+VIVID - 377,San Francisco Giants at New York Mets,53
+VIVID - 378,Los Angeles Dodgers at New York Mets,80
+VIVID - 379,Arizona Diamondbacks at New York Mets,56
+VIVID - 380,Colorado Rockies at New York Mets,57
+VIVID - 381,San Diego Padres at New York Mets,50
+VIVID - 382,St. Louis Cardinals at New York Mets,32
+VIVID - 383,Baltimore Orioles at New York Mets,100
+VIVID - 384,Milwaukee Brewers at New York Mets,67
+VIVID - 385,Miami Marlins at Cincinnati Reds,105
+VIVID - 386,San Francisco Giants at San Diego Padres,73
+VIVID - 387,Arizona Diamondbacks at San Diego Padres,63
+VIVID - 388,Cincinnati Reds at San Diego Padres,113
+VIVID - 389,Atlanta Braves at San Diego Padres,70
+VIVID - 390,Colorado Rockies at San Diego Padres,99
+VIVID - 391,Philadelphia Phillies at San Diego Padres,64
+VIVID - 392,Chicago Cubs at San Diego Padres,87
+VIVID - 393,Miami Marlins at San Diego Padres,81
+VIVID - 394,Los Angeles Dodgers at San Diego Padres,57
+VIVID - 395,Washington Nationals at San Diego Padres,99
+VIVID - 396,Houston Astros at San Diego Padres,62
+VIVID - 397,Milwaukee Brewers at San Diego Padres,55
+VIVID - 398,Pittsburgh Pirates at San Diego Padres,88
+VIVID - 399,Seattle Mariners at San Diego Padres,106
+VIVID - 400,New York Mets at San Diego Padres,117
+VIVID - 401,St. Louis Cardinals at San Diego Padres,54
+VIVID - 402,Texas Rangers at San Diego Padres,85
+VIVID - 403,Tampa Bay Rays at Cleveland Indians,47
+VIVID - 404,Chicago White Sox at Cleveland Indians,98
+VIVID - 405,New York Yankees at Cleveland Indians,88
+VIVID - 406,Texas Rangers at Cleveland Indians,68
+VIVID - 407,Seattle Mariners at Cleveland Indians,100
+VIVID - 408,Minnesota Twins at Cleveland Indians,57
+VIVID - 409,Cincinnati Reds at Cleveland Indians,121
+VIVID - 410,Baltimore Orioles at Cleveland Indians,56
+VIVID - 411,Kansas City Royals at Cleveland Indians,58
+VIVID - 412,Detroit Tigers at Cleveland Indians,89
+VIVID - 413,Boston Red Sox at Cleveland Indians,67
+VIVID - 414,Toronto Blue Jays at Cleveland Indians,89
+VIVID - 415,Oakland Athletics at Cleveland Indians,73
+VIVID - 416,Pittsburgh Pirates at Cleveland Indians,93
+VIVID - 417,Miami Marlins at Cleveland Indians,57
+VIVID - 418,Spring Training - New York Yankees at Philadelphia Phillies,62
+VIVID - 419,Spring Training - Baltimore Orioles at Philadelphia Phillies (Split Squad),89
+VIVID - 420,Spring Training - Boston Red Sox at Philadelphia Phillies,107
+VIVID - 421,Spring Training - Pittsburgh Pirates at Philadelphia Phillies,55
+VIVID - 422,Spring Training - Minnesota Twins at Philadelphia Phillies,67
+VIVID - 423,Spring Training - Toronto Blue Jays at Philadelphia Phillies,40
+VIVID - 424,Spring Training - Atlanta Braves at Philadelphia Phillies (Split Squad),68
+VIVID - 425,Spring Training - Detroit Tigers at Philadelphia Phillies,75
+VIVID - 426,Spring Training - Houston Astros at Philadelphia Phillies,54
+VIVID - 427,Spring Training - Baltimore Orioles at Philadelphia Phillies,79
+VIVID - 428,Spring Training - Tampa Bay Rays at Philadelphia Phillies,59
+VIVID - 429,Spring Training - Detroit Tigers at Philadelphia Phillies (Split Squad),93
+VIVID - 430,Spring Training - Florida State Seminoles at Philadelphia Phillies,80
+VIVID - 431,Los Angeles Angels of Anaheim at San Diego Padres,54
+VIVID - 432,Los Angeles Angels of Anaheim at Cleveland Indians,119
+VIVID - 433,Los Angeles Angels of Anaheim at Detroit Tigers,126
+VIVID - 434,Tampa Bay Rays at Chicago White Sox,103
+VIVID - 435,Kansas City Royals at Chicago White Sox,73
+VIVID - 436,Toronto Blue Jays at Chicago White Sox,48
+VIVID - 437,Detroit Tigers at Chicago White Sox,106
+VIVID - 438,Baltimore Orioles at Chicago White Sox,62
+VIVID - 439,Texas Rangers at Chicago White Sox,100
+VIVID - 440,Minnesota Twins at Chicago White Sox,48
+VIVID - 441,Seattle Mariners at Chicago White Sox,61
+VIVID - 442,Oakland Athletics at Chicago White Sox,82
+VIVID - 443,Milwaukee Brewers at Chicago White Sox,74
+VIVID - 444,Houston Astros at Chicago White Sox,101
+VIVID - 445,Chicago Cubs at Chicago White Sox,92
+VIVID - 446,Cleveland Indians at Chicago White Sox,102
+VIVID - 447,Boston Red Sox at Chicago White Sox,95
+VIVID - 448,New York Yankees at Chicago White Sox,61
+VIVID - 449,Los Angeles Angels of Anaheim at Chicago White Sox,56
+VIVID - 450,Colorado Rockies at Los Angeles Dodgers,35
+VIVID - 451,St. Louis Cardinals at Los Angeles Dodgers,100
+VIVID - 452,San Francisco Giants at Los Angeles Dodgers,56
+VIVID - 453,Chicago White Sox at Los Angeles Dodgers,87
+VIVID - 454,Miami Marlins at Los Angeles Dodgers,95
+VIVID - 455,Arizona Diamondbacks at Los Angeles Dodgers,97
+VIVID - 456,New York Mets at Los Angeles Dodgers,89
+VIVID - 457,Cincinnati Reds at Los Angeles Dodgers,50
+VIVID - 458,Atlanta Braves at Los Angeles Dodgers,67
+VIVID - 459,San Diego Padres at Los Angeles Dodgers,60
+VIVID - 460,Philadelphia Phillies at Los Angeles Dodgers,68
+VIVID - 461,Washington Nationals at Los Angeles Dodgers,47
+VIVID - 462,Milwaukee Brewers at Los Angeles Dodgers,112
+VIVID - 463,Los Angeles Angels of Anaheim at Los Angeles Dodgers,87
+VIVID - 464,Houston Astros at Los Angeles Dodgers,92
+VIVID - 465,Chicago Cubs at Los Angeles Dodgers,53
+VIVID - 466,Los Angeles Dodgers at Colorado Rockies,58
+VIVID - 467,Arizona Diamondbacks at Colorado Rockies,77
+VIVID - 468,San Diego Padres at Colorado Rockies,79
+VIVID - 469,Washington Nationals at Colorado Rockies,78
+VIVID - 470,San Francisco Giants at Colorado Rockies,64
+VIVID - 471,St. Louis Cardinals at Colorado Rockies,99
+VIVID - 472,Cincinnati Reds at Colorado Rockies,57
+VIVID - 473,Seattle Mariners at Colorado Rockies,90
+VIVID - 474,Atlanta Braves at Colorado Rockies,62
+VIVID - 475,Milwaukee Brewers at Colorado Rockies,54
+VIVID - 476,Los Angeles Angels of Anaheim at Colorado Rockies,35
+VIVID - 477,Pittsburgh Pirates at Colorado Rockies,53
+VIVID - 478,New York Mets at Colorado Rockies,80
+VIVID - 479,Oakland Athletics at Colorado Rockies,118
+VIVID - 480,Chicago Cubs at Colorado Rockies,110
+VIVID - 481,Houston Astros at Colorado Rockies,58
+VIVID - 482,Philadelphia Phillies at Colorado Rockies,51
+VIVID - 483,Miami Marlins at Colorado Rockies,62
+VIVID - 484,San Francisco Giants at Houston Astros,61
+VIVID - 485,Washington Nationals at Houston Astros,93
+VIVID - 486,St. Louis Cardinals at Houston Astros,96
+VIVID - 487,Philadelphia Phillies at Houston Astros,62
+VIVID - 488,Milwaukee Brewers at Houston Astros,121
+VIVID - 489,San Diego Padres at Houston Astros,77
+VIVID - 490,Chicago Cubs at Houston Astros,76
+VIVID - 491,Cincinnati Reds at Houston Astros,51
+VIVID - 492,Pittsburgh Pirates at Houston Astros,59
+VIVID - 493,Los Angeles Dodgers at Houston Astros,52
+VIVID - 494,Texas Rangers at Houston Astros,92
+VIVID - 495,Miami Marlins at Houston Astros,70
+VIVID - 496,New York Mets at Houston Astros,40
+VIVID - 497,Cleveland Indians at Houston Astros,93
+VIVID - 498,Arizona Diamondbacks at Houston Astros,60
+VIVID - 499,Kansas City Royals at Houston Astros,58
+VIVID - 500,Seattle Mariners at Oakland Athletics,110
+VIVID - 501,Los Angeles Angels of Anaheim at Oakland Athletics,96
+VIVID - 502,Texas Rangers at Oakland Athletics,77
+VIVID - 503,Baltimore Orioles at Oakland Athletics,55
+VIVID - 504,Toronto Blue Jays at Oakland Athletics,51
+VIVID - 505,Boston Red Sox at Oakland Athletics,66
+VIVID - 506,Detroit Tigers at Oakland Athletics,107
+VIVID - 507,Chicago White Sox at Oakland Athletics,56
+VIVID - 508,Cleveland Indians at Oakland Athletics,55
+VIVID - 509,Tampa Bay Rays at Oakland Athletics,57
+VIVID - 510,Los Angeles Dodgers at Oakland Athletics,103
+VIVID - 511,San Diego Padres at Oakland Athletics,45
+VIVID - 512,New York Yankees at Oakland Athletics,92
+VIVID - 513,Minnesota Twins at Oakland Athletics,94
+VIVID - 514,San Francisco Giants at Oakland Athletics,78
+VIVID - 515,Kansas City Royals at Oakland Athletics,51
+VIVID - 516,Spring Training - Chicago Cubs at Cincinnati Reds,85
+VIVID - 517,Spring Training - Cleveland Indians at Cincinnati Reds,99
+VIVID - 518,Spring Training - San Diego Padres at Cincinnati Reds,100
+VIVID - 519,Spring Training - Seattle Mariners at Cincinnati Reds,67
+VIVID - 520,Spring Training - Texas Rangers at Cincinnati Reds,72
+VIVID - 521,Spring Training - Colorado Rockies at Cincinnati Reds,73
+VIVID - 522,Spring Training - Arizona Diamondbacks at Cincinnati Reds,104
+VIVID - 523,Spring Training - Kansas City Royals at Cincinnati Reds,63
+VIVID - 524,Spring Training - Los Angeles Angels of Anaheim at Cincinnati Reds,134
+VIVID - 525,Spring Training - San Francisco Giants at Cincinnati Reds,42
+VIVID - 526,Spring Training - Chicago White Sox at Cincinnati Reds,70
+VIVID - 527,Spring Training - Los Angeles Dodgers at Cincinnati Reds (Split Squad),65
+VIVID - 528,Exhibition - Pittsburgh Pirates at Philadelphia Phillies,54
+VIVID - 529,Colorado Rockies at Houston Astros,61
+VIVID - 530,Spring Training - San Francisco Giants at Chicago White Sox,69
+VIVID - 531,Spring Training - Cleveland Indians at Chicago White Sox,73
+VIVID - 532,Spring Training - Los Angeles Dodgers at Chicago White Sox,52
+VIVID - 533,Spring Training - Milwaukee Brewers at Chicago White Sox,101
+VIVID - 534,Spring Training - Milwaukee Brewers at Los Angeles Dodgers,57
+VIVID - 535,Spring Training - Kansas City Royals at Chicago White Sox,90
+VIVID - 536,Spring Training - Colorado Rockies at Los Angeles Dodgers,69
+VIVID - 537,Spring Training - Texas Rangers at Los Angeles Dodgers,65
+VIVID - 538,Spring Training - Chicago Cubs at Chicago White Sox,122
+VIVID - 539,Spring Training - San Diego Padres at Chicago White Sox,91
+VIVID - 540,Spring Training - Chicago Cubs at Los Angeles Dodgers,49
+VIVID - 541,Spring Training - Cleveland Indians at Los Angeles Dodgers,74
+VIVID - 542,Spring Training - Chicago White Sox at Los Angeles Dodgers,53
+VIVID - 543,Spring Training - San Francisco Giants at Los Angeles Dodgers,74
+VIVID - 544,Spring Training - Arizona Diamondbacks at Los Angeles Dodgers,62
+VIVID - 545,Spring Training - San Diego Padres at Los Angeles Dodgers,75
+VIVID - 546,Spring Training - Oakland Athletics at Chicago White Sox,120
+VIVID - 547,Spring Training - Arizona Diamondbacks at Chicago White Sox,57
+VIVID - 548,Spring Training - Los Angeles Angels of Anaheim at Chicago White Sox,105
+VIVID - 549,Spring Training - Seattle Mariners at Chicago White Sox,57
+VIVID - 550,Spring Training - Oakland Athletics at Los Angeles Dodgers,73
+VIVID - 551,Spring Training - Cincinnati Reds at Chicago White Sox,122
+VIVID - 552,Spring Training - Colorado Rockies at Chicago White Sox,47
+VIVID - 553,Pittsburgh Pirates at Los Angeles Dodgers,110
+VIVID - 554,Atlanta Braves at Houston Astros,96
+VIVID - 555,Spring Training - Washington Nationals at Houston Astros,80
+VIVID - 556,Spring Training - Pittsburgh Pirates at Houston Astros,45
+VIVID - 557,Spring Training - Philadelphia Phillies at Houston Astros,47
+VIVID - 558,Spring Training - Detroit Tigers at Houston Astros,56
+VIVID - 559,Spring Training - New York Mets at Houston Astros,94
+VIVID - 560,Spring Training - Atlanta Braves at Houston Astros,75
+VIVID - 561,Spring Training - Toronto Blue Jays at Houston Astros,64
+VIVID - 562,Spring Training - St. Louis Cardinals at Houston Astros,63
+VIVID - 563,Spring Training - New York Yankees at Houston Astros,80
+VIVID - 564,2012 Chicago Cubs Convention - 3 Day Pass,87
+VIVID - 565,Seattle Mariners at Arizona Diamondbacks,49
+VIVID - 566,Spring Training - TBD at Los Angeles Dodgers,55
+VIVID - 567,Spring Training - Detroit Tigers at Atlanta Braves,85
+VIVID - 568,Spring Training - Houston Astros at Atlanta Braves,114
+VIVID - 569,Spring Training - New York Mets at Atlanta Braves,56
+VIVID - 570,Spring Training - Washington Nationals at Atlanta Braves,76
+VIVID - 571,Spring Training - Baltimore Orioles at Atlanta Braves,101
+VIVID - 572,Spring Training - St. Louis Cardinals at Atlanta Braves,90
+VIVID - 573,Spring Training - New York Yankees at Atlanta Braves,100
+VIVID - 574,Spring Training - Philadelphia Phillies at Atlanta Braves,86
+VIVID - 575,Spring Training - Arizona Diamondbacks at Colorado Rockies,74
+VIVID - 576,Spring Training - San Francisco Giants at Colorado Rockies,88
+VIVID - 577,Spring Training - Cincinnati Reds at Colorado Rockies,36
+VIVID - 578,Spring Training - San Diego Padres at Colorado Rockies,59
+VIVID - 579,Spring Training - Chicago Cubs at Colorado Rockies,138
+VIVID - 580,Spring Training - Seattle Mariners at Colorado Rockies,56
+VIVID - 581,Spring Training - Arizona Diamondbacks at Colorado Rockies (Split Squad),50
+VIVID - 582,Spring Training - Los Angeles Dodgers at Colorado Rockies,80
+VIVID - 583,Spring Training - Kansas City Royals at Colorado Rockies,44
+VIVID - 584,Spring Training - Los Angeles Angels of Anaheim at Colorado Rockies,45
+VIVID - 585,Spring Training - Oakland Athletics at Colorado Rockies,89
+VIVID - 586,Spring Training - Chicago White Sox at Colorado Rockies,75
+VIVID - 587,Spring Training - Texas Rangers at Colorado Rockies,64
+VIVID - 588,Spring Training - Cleveland Indians at Colorado Rockies,68
+VIVID - 589,Spring Training - Pittsburgh Pirates at Toronto Blue Jays,80
+VIVID - 590,Spring Training - Philadelphia Phillies at Toronto Blue Jays,49
+VIVID - 591,Spring Training - Boston Red Sox at Toronto Blue Jays,79
+VIVID - 592,Spring Training - Baltimore Orioles at Toronto Blue Jays,59
+VIVID - 593,Spring Training - Tampa Bay Rays at Toronto Blue Jays,96
+VIVID - 594,Spring Training - New York Yankees at Toronto Blue Jays,94
+VIVID - 595,Spring Training - Detroit Tigers at Toronto Blue Jays,62
+VIVID - 596,Spring Training - Houston Astros at Toronto Blue Jays,90
+VIVID - 597,Spring Training - Atlanta Braves at Toronto Blue Jays,34
+VIVID - 598,Spring Training - Minnesota Twins at Toronto Blue Jays,62
+VIVID - 599,Spring Training - Detroit Tigers at New York Yankees,41
+VIVID - 600,Spring Training - Houston Astros at New York Yankees,80
+VIVID - 601,Spring Training - Minnesota Twins at New York Yankees,119
+VIVID - 602,Spring Training - Boston Red Sox at New York Yankees,81
+VIVID - 603,Spring Training - Washington Nationals at New York Yankees,75
+VIVID - 604,Spring Training - Toronto Blue Jays at New York Yankees,86
+VIVID - 605,Spring Training - New York Mets at New York Yankees,55
+VIVID - 606,Spring Training - Philadelphia Phillies at New York Yankees,37
+VIVID - 607,Spring Training - Atlanta Braves at New York Yankees,86
+VIVID - 608,Spring Training - Tampa Bay Rays at New York Yankees,105
+VIVID - 609,Spring Training - Baltimore Orioles at New York Yankees,84
+VIVID - 610,Spring Training - Pittsburgh Pirates at New York Yankees,94
+VIVID - 611,Spring Training - Miami Marlins at Atlanta Braves,63
+VIVID - 612,Spring Training - Toronto Blue Jays at Atlanta Braves,97
+VIVID - 613,MLB Exhibition - Milwaukee Brewers at Arizona Diamondbacks,67
+VIVID - 614,Spring Training - San Diego Padres at Cincinnati Reds (Split Squad),95
+VIVID - 615,Spring Training - Atlanta Braves at New York Mets,87
+VIVID - 616,Spring Training - Washington Nationals at New York Mets,95
+VIVID - 617,Spring Training - Houston Astros at New York Mets,115
+VIVID - 618,Spring Training - St. Louis Cardinals at New York Mets,55
+VIVID - 619,Spring Training - Detroit Tigers at New York Mets,82
+VIVID - 620,Spring Training - Miami Marlins at New York Mets,85
+VIVID - 621,Spring Training - St. Louis Cardinals at New York Mets (Split Squad),64
+VIVID - 622,Spring Training - New York Yankees at New York Mets,68
+VIVID - 623,Spring Training - Milwaukee Brewers at Oakland Athletics,34
+VIVID - 624,Spring Training - Seattle Mariners at Oakland Athletics,66
+VIVID - 625,Spring Training - Chicago Cubs at Oakland Athletics (Split Squad),52
+VIVID - 626,Spring Training - Los Angeles Angels of Anaheim at Oakland Athletics (Split Squad),48
+VIVID - 627,Spring Training - Arizona Diamondbacks at Oakland Athletics,130
+VIVID - 628,Spring Training - Los Angeles Dodgers at Oakland Athletics,101
+VIVID - 629,Spring Training - Cincinnati Reds at Oakland Athletics,102
+VIVID - 630,Spring Training - Kansas City Royals at Oakland Athletics,58
+VIVID - 631,Spring Training - Chicago Cubs at Oakland Athletics,66
+VIVID - 632,Spring Training - Miami Marlins at Houston Astros,58
+VIVID - 633,Spring Training - Chicago Cubs at Arizona Diamondbacks,59
+VIVID - 634,Spring Training - Los Angeles Angels of Anaheim at Arizona Diamondbacks,114
+VIVID - 635,Spring Training - Chicago White Sox at Arizona Diamondbacks,60
+VIVID - 636,Spring Training - Colorado Rockies at Arizona Diamondbacks,49
+VIVID - 637,Spring Training - San Francisco Giants at Arizona Diamondbacks,50
+VIVID - 638,Spring Training - Texas Rangers at Arizona Diamondbacks,59
+VIVID - 639,Spring Training - Cleveland Indians at Arizona Diamondbacks,49
+VIVID - 640,Spring Training - Seattle Mariners at Arizona Diamondbacks,66
+VIVID - 641,Spring Training - Milwaukee Brewers at Arizona Diamondbacks,74
+VIVID - 642,Spring Training - Kansas City Royals at Arizona Diamondbacks,96
+VIVID - 643,Exhibition - Oakland Athletics at San Francisco Giants,53
+VIVID - 644,Spring Training - Tampa Bay Rays at Minnesota Twins,77
+VIVID - 645,Spring Training - Toronto Blue Jays at Minnesota Twins,39
+VIVID - 646,Spring Training - Baltimore Orioles at Minnesota Twins,76
+VIVID - 647,Spring Training - Pittsburgh Pirates at Minnesota Twins,85
+VIVID - 648,Spring Training - Boston Red Sox at Minnesota Twins,51
+VIVID - 649,Spring Training - St. Louis Cardinals at Minnesota Twins,87
+VIVID - 650,Spring Training - Philadelphia Phillies at Minnesota Twins,98
+VIVID - 651,Spring Training - New York Yankees at Minnesota Twins,127
+VIVID - 652,San Francisco Giants at Oakland Athletics (Exhibition),57
+VIVID - 653,Spring Training - Milwaukee Brewers at Chicago Cubs,86
+VIVID - 654,Spring Training - Cincinnati Reds at Chicago Cubs,48
+VIVID - 655,Spring Training - San Diego Padres at Chicago Cubs (Split Squad),109
+VIVID - 656,Spring Training - San Francisco Giants at Chicago Cubs,103
+VIVID - 657,Spring Training - Oakland Athletics at Chicago Cubs,48
+VIVID - 658,Spring Training - Arizona Diamondbacks at Chicago Cubs,116
+VIVID - 659,Spring Training - Chicago White Sox at Chicago Cubs (Split Squad),75
+VIVID - 660,Spring Training - Oakland Athletics at Chicago Cubs (Split Squad),87
+VIVID - 661,Spring Training - Seattle Mariners at Chicago Cubs,98
+VIVID - 662,Spring Training - Colorado Rockies at Chicago Cubs,58
+VIVID - 663,Spring Training - Cleveland Indians at Chicago Cubs,80
+VIVID - 664,Spring Training - Los Angeles Dodgers at Chicago Cubs,45
+VIVID - 665,Spring Training - Texas Rangers at Chicago Cubs (Split Squad),111
+VIVID - 666,Spring Training - Los Angeles Angels of Anaheim at Chicago Cubs,89
+VIVID - 667,Spring Training - San Diego Padres at Chicago Cubs,67
+VIVID - 668,Spring Training - Miami Marlins at Tampa Bay Rays,109
+VIVID - 669,Spring Training - Baltimore Orioles at Tampa Bay Rays,59
+VIVID - 670,Spring Training - Minnesota Twins at Tampa Bay Rays,83
+VIVID - 671,Spring Training - Philadelphia Phillies at Tampa Bay Rays,50
+VIVID - 672,Spring Training - Boston Red Sox at Tampa Bay Rays,43
+VIVID - 673,Spring Training - Pittsburgh Pirates at Tampa Bay Rays,76
+VIVID - 674,Spring Training - New York Yankees at Tampa Bay Rays,95
+VIVID - 675,Spring Training - Toronto Blue Jays at Tampa Bay Rays,69
+VIVID - 676,Spring Training - Detroit Tigers at Tampa Bay Rays (Split Squad),80
+VIVID - 677,Spring Training - Philadelphia Phillies at Detroit Tigers,86
+VIVID - 678,Spring Training - New York Mets at Detroit Tigers,102
+VIVID - 679,Spring Training - Toronto Blue Jays at Detroit Tigers,62
+VIVID - 680,Spring Training - Miami Marlins at Detroit Tigers,85
+VIVID - 681,Spring Training - St. Louis Cardinals at Detroit Tigers,50
+VIVID - 682,Spring Training - Atlanta Braves at Detroit Tigers,43
+VIVID - 683,Spring Training - Baltimore Orioles at Detroit Tigers,87
+VIVID - 684,Spring Training - Washington Nationals at Detroit Tigers,80
+VIVID - 685,Spring Training - Houston Astros at Detroit Tigers,65
+VIVID - 686,Spring Training - Minnesota Twins at Detroit Tigers,77
+VIVID - 687,Spring Training - New York Yankees at Detroit Tigers,63
+VIVID - 688,Spring Training - Minnesota Twins at St. Louis Cardinals,123
+VIVID - 689,Spring Training - Miami Marlins at St. Louis Cardinals,77
+VIVID - 690,Spring Training - Washington Nationals at St. Louis Cardinals,102
+VIVID - 691,Spring Training - Detroit Tigers at St. Louis Cardinals,95
+VIVID - 692,Spring Training - New York Mets at St. Louis Cardinals,80
+VIVID - 693,Spring Training - Atlanta Braves at St. Louis Cardinals,45
+VIVID - 694,Spring Training - Houston Astros at St. Louis Cardinals,32
+VIVID - 695,Spring Training - Boston Red Sox at St. Louis Cardinals,64
+VIVID - 696,Spring Training - St. Louis Cardinals at Miami Marlins,76
